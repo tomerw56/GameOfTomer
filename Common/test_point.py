@@ -18,7 +18,4 @@ class TestPoint(TestCase):
         p = Point(2, 1)
         self.assertFalse((2 == p.y), "error")
 
-    def test_ToString(self):
-        p = Point(2, 1)
-        print(p.getString())
-        self.assertTrue(("X=2 Y= 1"== p.getString()), "error")
+

@@ -24,5 +24,14 @@ class loggingHelper:
         self.logger.addHandler(handler)
         self.logger.addHandler(consolehandler)
 
-    def loginfo(self, msg):
+    def log_info(self, msg):
         self.logger.info(msg);
+
+    def log_error(self, msg):
+        self.logger.error(msg);
+
+    def log_warn(self, msg):
+        self.logger.warn(msg);
+
+    def log_debug(self, msg):
+        self.logger.debug(msg);

@@ -1,5 +1,6 @@
 from unittest import TestCase
 from Common.Dimensions import Dimensions
+from Common.Point import Point
 
 class TestDimensions(TestCase):
     def test_Width_True(self):
@@ -18,7 +19,28 @@ class TestDimensions(TestCase):
         p = Dimensions(2, 1)
         self.assertFalse((2 == p.height), "error")
 
-    def test_ToString(self):
-        p = Dimensions(2, 1)
-        print(p.getString())
-        self.assertTrue(("Width=2 Height= 1"== p.getString()), "error")
+    def test_PointIn_True(self):
+        p = Dimensions(6, 6)
+        point=Point(3,3)
+        self.assertTrue(p.IsPointInDim(point), "error")
+    def test_PointIn_False_X_Large(self):
+        p = Dimensions(6, 6)
+        point=Point(7,3)
+        self.assertFalse(p.IsPointInDim(point), "error")
+
+    def test_PointIn_False_X_Small(self):
+        p = Dimensions(6, 6)
+        point = Point(-1, 3)
+        self.assertFalse(p.IsPointInDim(point), "error")
+
+    def test_PointIn_False_Y_Large(self):
+        p = Dimensions(6, 6)
+        point = Point(7, 3)
+        self.assertFalse(p.IsPointInDim(point), "error")
+
+    def test_PointIn_False_Y_Small(self):
+        p = Dimensions(6, 6)
+        point = Point(3, -1)
+        self.assertFalse(p.IsPointInDim(point), "error")
+
+

@@ -21,5 +21,5 @@ class Point:
     @y.setter
     def y(self, value):
         self._Y = value
-    def getString(self):
+    def __str__(self):
         return 'X={0} Y= {1}'.format(self._X,self._Y)
