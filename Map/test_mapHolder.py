@@ -1,5 +1,6 @@
 from unittest import TestCase
 from Common.Point import Point
+from Common.PathResult import PathResult
 from Utils.UnitTestDummyConfigProvider import UnitTestDummyConfigProvider
 import os.path
 import sys
@@ -12,7 +13,7 @@ class TestMapHolder(TestCase):
         self._SimpleRealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestSimpleMap.csv')
         self._NotRealPath = os.path.join(os.path.dirname(__file__), '../Maps/NoMap.csv')
         self._ConfigProvider=UnitTestDummyConfigProvider()
-        self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','2')
+        self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','3')
     #region Loading
     def test_mapLoaded_True(self):
         path= self._RealPath
@@ -77,6 +78,16 @@ class TestMapHolder(TestCase):
 
         self.assertTrue(may, "error")
 
+    def test_mapLoaded_MayMove_Success_LongPath(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom=Point(0,0)
+        PointTo = Point(1, 2)
+        may=holder.mayMove(PointFrom,PointTo)
+
+        self.assertTrue(may, "error")
+
     def test_mapLoaded_MayMove_Failure_OutOfBounds_X(self):
         path = self._SimpleRealPath
         holder = MapHolder(self._ConfigProvider)
@@ -106,6 +117,90 @@ class TestMapHolder(TestCase):
 
         self.assertFalse(may, "error")
 
+    def test_mapLoaded_MayMove_Fail_UnReachable(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(0, 0)
+        PointTo = Point(3, 3)
+        self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '1')
+        may = holder.mayMove(PointFrom, PointTo)
+
+        self.assertFalse(may, "error")
+
     #endregion
 
+    #region GetPath
+    def test_mapLoaded_GetPath_Success(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(0, 0)
+        PointTo = Point(1, 1)
+        path = holder.getPath(PointFrom, PointTo)
+
+        self.assertTrue(path.valid, "error")
+
+    def test_mapLoaded_GetPath_Success_LongPath(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(0, 0)
+        PointTo = Point(1, 2)
+        path = holder.getPath(PointFrom, PointTo)
+
+        self.assertTrue(path.valid, "error")
+
+    def test_mapLoaded_GetPath_Success_LongPath_Draw(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(0, 0)
+        PointTo = Point(1, 2)
+        path = holder.getPath(PointFrom, PointTo,draw=True)
+
+        self.assertTrue(path.valid, "error")
+
+    def test_mapLoaded_GetPath_Failure_OutOfBounds_X(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(-1, 0)
+        PointTo = Point(1, 1)
+        path = holder.getPath(PointFrom, PointTo)
+
+        self.assertFalse(path.valid, "error")
+
+    def test_mapLoaded_GetPath_Failure_OutOfBounds_Y(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(0, 900)
+        PointTo = Point(1, 1)
+        path = holder.getPath(PointFrom, PointTo)
+
+        self.assertFalse(path.valid, "error")
+
+    def test_mapLoaded_GetPath_Fail_Too_LongDistance(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(0, 0)
+        PointTo = Point(2, 2)
+        self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '1')
+        path = holder.getPath(PointFrom, PointTo)
+
+        self.assertFalse(path.valid, "error")
+
+    def test_mapLoaded_MayMove_Fail_UnReachable(self):
+        path = self._SimpleRealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        PointFrom = Point(0, 0)
+        PointTo = Point(3, 3)
+        self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '1')
+        path = holder.getPath(PointFrom, PointTo)
+
+        self.assertFalse(path.valid, "error")
+    #endregion
 

@@ -1,12 +1,15 @@
 import os.path
 import numpy as np
 import pickle
+
+from networkx import nodes
+
 from Common.Dimensions import Dimensions
 from Common.Point import Point
 from Common.Constant import Constants
 import networkx as nx
 import matplotlib.pyplot as plt
-
+from Common.PathResult import PathResult
 from Map.CSVMatrixReader import CSVMatrixReader
 from Map.MovementCalculator import MovementCalculator
 
@@ -30,12 +33,14 @@ class MapHolder:
         return  self._Csvreader.fileLoaded
     def drawGraph(self):
         if self._GraphLoaded:
-            plt.subplot(121)
-            nx.draw(self._Graph, with_labels=True, font_weight='bold')
-            plt.subplot(122)
-            dim=self.getMapDim();
-            numberOfNodes=(dim.height)*(dim.width)
-            nx.draw_shell(self._Graph, nlist=[range(0,numberOfNodes)], with_labels=True, font_weight='bold')
+            graph_pos = nx.shell_layout(self._Graph)
+
+            nx.draw_networkx_nodes(self._Graph, graph_pos, node_size=1000, node_color='blue', alpha=0.3)
+            nx.draw_networkx_edges(self._Graph, graph_pos)
+            labels = {}
+            for Idx in range(0,len(self._Graph.nodes().keys())):
+                labels[Idx] = "({0}-{1})".format(self._Graph.nodes[Idx]["X"], self._Graph.nodes[Idx]["Y"])
+            nx.draw_networkx_labels(self._Graph, graph_pos,labels=labels, font_size=12, font_family='sans-serif')
             plt.show()
     def saveGraph(self,mapname):
         pass
@@ -55,21 +60,48 @@ class MapHolder:
             return False
         if dim.IsPointInDim(pTo)==False:
             return False
-        NodeFrom = self.getConnectivtyNodeIndexFromPoint(pFrom, dim.height)
-        NodeTo = self.getConnectivtyNodeIndexFromPoint(pTo, dim.height)
+        NodeFrom = Point.ToGridNodeFromPoint(pFrom, dim.height)
+        NodeTo = Point.ToGridNodeFromPoint(pTo, dim.height)
 
         return self._MovementCalculator.mayMove(NodeFrom,NodeTo,self._Graph)
 
+    def getPath(self,pFrom:Point,pTo:Point,draw=False):
+        if not self._Csvreader.fileLoaded:
+            return PathResult([],False)
+        if not self._GraphLoaded:
+            return  PathResult([],False)
+        dim=self.getMapDim()
+        if dim.IsPointInDim(pFrom)==False:
+            return  PathResult([],False)
+        if dim.IsPointInDim(pTo)==False:
+            return  PathResult([],False)
+        NodeFrom = Point.ToGridNodeFromPoint(pFrom, dim.height)
+        NodeTo = Point.ToGridNodeFromPoint(pTo, dim.height)
+        path=self._MovementCalculator.getPath(NodeFrom,NodeTo,self._Graph)
+        if draw and path.valid:
+            graph_pos = nx.shell_layout(self._Graph)
 
+            nx.draw_networkx_nodes(self._Graph, graph_pos, node_size=1000, node_color='blue', alpha=0.3)
+            nx.draw_networkx_edges(self._Graph, graph_pos)
+            labels = {}
+            for Idx in range(0, len(self._Graph.nodes().keys())):
+                labels[Idx] = "({0}-{1})".format(self._Graph.nodes[Idx]["X"], self._Graph.nodes[Idx]["Y"])
+            nx.draw_networkx_labels(self._Graph, graph_pos, labels=labels, font_size=12, font_family='sans-serif')
+
+            path_edges = [(path.nodelist[n], path.nodelist[n + 1]) for n in range(len(path.nodelist) - 1)]
+
+            nx.draw_networkx_edges(self._Graph, graph_pos, edgelist=path_edges, edge_color='r', width=10)
+            plt.show()
+        return path
 
     def buildGraph(self):
         dim=self.getMapDim()
 
-
+        labels={}
         self._Graph = nx.Graph()
         for colIndex in range(0, dim.width):
             for rowIndex in range(0, dim.height):
-                cord = self.getConnectivtyNodeIndex(colIndex, rowIndex, dim.height)
+                cord = Point.ToGridNode(colIndex, rowIndex, dim.height)
                 self.UpdateWeight(cord,colIndex,rowIndex,dim,0,0)
                 self.UpdateWeight(cord,colIndex,rowIndex,dim,0,1)
                 self.UpdateWeight(cord,colIndex,rowIndex,dim,0,-1)
@@ -81,6 +113,10 @@ class MapHolder:
                 self.UpdateWeight(cord,colIndex, rowIndex, dim, 1,0)
                 self.UpdateWeight(cord,colIndex, rowIndex, dim, 1, -1)
                 self.UpdateWeight(cord,colIndex, rowIndex, dim, 1, 1)
+                self._Graph.nodes[cord]["X"]=colIndex
+                self._Graph.nodes[cord]["Y"] = rowIndex
+                labels[cord]="({0}-{1})".format(rowIndex,colIndex)
+        nx.relabel_nodes(self._Graph,labels)
         self._GraphLoaded=True
     def UpdateWeight(self,cord,colIndex,rowIndex,dim,xFactor,yFactor):
         newColIndex=colIndex+xFactor
@@ -95,7 +131,7 @@ class MapHolder:
         if (newRowIndex)<0:
             return
         #we try to go to Cover -not connected
-        NextCord=self.getConnectivtyNodeIndex(newColIndex,newRowIndex,dim.height)
+        NextCord=Point.ToGridNode(newColIndex,newRowIndex,dim.height)
         if self._Csvreader.Matrix.item((colIndex, rowIndex)) == self._Consts.CoverNumber:
             return
         # we try to go from Cover -not connected
@@ -108,13 +144,10 @@ class MapHolder:
         if AltDiff >= self._Consts.MaximumAltDif:
             return
 
-        print("NextCord={0} cord={1} ConnectedGraphVertexWeight={2}".format(NextCord,cord,self._Consts.ConnectedGraphVertexWeight))
         #we set connectivity
-        self._Graph.add_weighted_edges_from([(NextCord, cord, self._Consts.ConnectedGraphVertexWeight)])
-    def getConnectivtyNodeIndex(self,x,y,rownumber):
-        return x+(y*rownumber)
-    def getConnectivtyNodeIndexFromPoint(self,point:Point,rownumber):
-        return point.x+(point.y*rownumber)
+        self._Graph.add_edge(NextCord, cord, weight=self._Consts.ConnectedGraphVertexWeight)
+
+
     @property
     def mapLoaded(self):
         return  self._Csvreader.fileLoaded

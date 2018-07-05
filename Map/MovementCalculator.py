@@ -1,6 +1,9 @@
 import networkx as nx
+import matplotlib.pyplot as plt
 from Utils.ConfigProvider import ConfigProvider
 from Common.Constant import Constants
+from  Common.PathResult import PathResult
+from  Common.Point import Point
 class MovementCalculator:
     def __init__(self,configProvider):
         self._Consts = Constants()
@@ -9,26 +12,27 @@ class MovementCalculator:
         try:
             length=nx.shortest_path_length(graph,pFrom,pTo)
             maximumAllowedPath=self._ConfigProvider.getValue('Game.MovementDefinations','maximumAllowedPath')
-            if(int(maximumAllowedPath)<length):
-                return False;
-            return True
+            return  (int(maximumAllowedPath)>=length)
         except nx.exception.NetworkXError:
             return False
-    def getPath(self,pFrom,pTo,graph,draw=fale):
-        try:
-            path = nx.shortest_path(G, source=14, target=16)
-
-            import matplotlib.pyplot as plt
-            G = nx.karate_club_graph()
-            pos = nx.spring_layout(G)
-            nx.draw(G, pos, node_color='k')
-            # draw path in red
-            path_edges = zip(path, path[1:])
-            nx.draw_networkx_nodes(G, pos, nodelist=path, node_color='r')
-            nx.draw_networkx_edges(G, pos, edgelist=path_edges, edge_color='r', width=10)
-            plt.axis('equal')
-            plt.show()
-
         except nx.exception.NetworkXError:
-            return []
+            return False
+    def getPath(self,pFrom,pTo,graph):
+
+        try:
+            path = nx.shortest_path(graph,pFrom,pTo)
+            NodeList=[]
+            for idx in range(0,len(path)):
+                point=Point(graph.nodes[idx]["X"],graph.nodes[idx]["Y"])
+                NodeList.append(point)
+            maximumAllowedPath = self._ConfigProvider.getValue('Game.MovementDefinations', 'maximumAllowedPath')
+
+            result = PathResult(NodeList, int(maximumAllowedPath) >= len(NodeList),path)
+            return result
+        except nx.exception.NetworkXNoPath:
+            result= PathResult([],False)
+            return result
+        except nx.exception.NetworkXError:
+            result = PathResult([], False)
+            return result
 
