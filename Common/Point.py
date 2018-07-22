@@ -29,5 +29,17 @@ class Point:
     def ToGridNodeFromPoint(point, rownumber):
         return point.x + (point.y * rownumber)
 
+    @staticmethod
+    def GetEmpty():
+        return Point(0,0)
+
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__)
+            and self.x == other.x
+            and self.y == other.y)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __str__(self):
         return 'X={0} Y= {1}'.format(self._X,self._Y)

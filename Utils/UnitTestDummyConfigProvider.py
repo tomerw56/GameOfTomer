@@ -7,7 +7,8 @@ class UnitTestDummyConfigProvider(ConfigProvider):
         self._config = configparser.ConfigParser()
         self.ConfigValid=True
     def addValue(self,key,subkey,val):
-        self._config[key] = {}
+        if not self._config.has_section(key):
+            self._config[key] = {}
         self._config[key][subkey]=val
 
     def setValue(self, key, subkey, val):

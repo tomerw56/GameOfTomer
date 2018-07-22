@@ -27,7 +27,7 @@ class CSVMatrixReader:
                 print("Row {0} is with {1} Items -which makes the file not square".format(index,rowlen))
                 return False
             for rowIndex in range(0,rowlen):
-                self._Matrix .itemset((rowIndex, index),row[rowIndex])
+                self._Matrix .itemset((index, rowIndex),row[rowIndex])
         self._FileLoaded=True
         return True
 
