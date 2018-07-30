@@ -1,38 +1,39 @@
 from Utils.ConfigProvider import ConfigProvider
 from Common.Point import Point
 from Common.Dimensions import Dimensions
+import numpy as np
 from Engine.Common.Facade.PlayerStateFacade import PlayerStatFacade
 from Engine.Common.Facade.GameStateFacade import GameStateFacade
-class EngineFacade:
+class PlayrerEngineFacade:
 
-    def __init__(self,id,configprovider:ConfigProvider,dimensions:Dimensions,map):
-        self._ConfigProvider=configprovider
+    def __init__(self,id,map:np.matrix,dimensions:Dimensions):
         self._ID=id
-        self._Dimensions = dimensions
+        self._Dimensions=dimensions
         self._Map=map
 
-    def MoveTo(self,position:Point)->bool:
+
+    def MayIMove(self, position: Point) -> bool:
         pass
 
-    def MayMove(self,position:Point)->bool:
-        pass
-
-    def IsLos(self,position:Point)->bool:
+    def MayMoveBetweenPoints(self, pFrom: Point, pTo: Point) -> bool:
         pass
 
     def IsLosToEnemy(self,position:Point)->bool:
         pass
 
-    def Finish(self):
+    def IsLosBetweenPoints(self, pFrom: Point, pTo: Point) -> bool:
+       pass
+
+    def IsLosFromMeToPoint(self, position: Point) -> bool:
         pass
 
-    def GetEnemyState(self)->GameStateFacade:
+    def GetEnemyState(self)->PlayerStatFacade:
         pass
 
-    def GetMyState(self)->GameStateFacade:
+    def GetMyState(self)->PlayerStatFacade:
         pass
 
-    def GetGameState(self)->PlayerStatFacade:
+    def GetGameState(self)->GameStateFacade:
         pass
 
     @property
@@ -44,5 +45,5 @@ class EngineFacade:
         return self._Dimensions
 
     @property
-    def map(self):
+    def map(self)->np.matrix:
         return self._Map

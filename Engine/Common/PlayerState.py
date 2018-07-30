@@ -21,6 +21,10 @@ class PlayerState(PlayerStatFacade):
     def timeinposition(self, value):
         self._TimeInPosition = value
 
+    @PlayerStatFacade.Threatened.setter
+    def threatened(self, value):
+        self._IsThretened = value
+
     @PlayerStatFacade.destroyed.setter
     def destroyed(self, value):
         self._IsDestoryed = value

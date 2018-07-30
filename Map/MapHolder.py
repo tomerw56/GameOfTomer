@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from Common.PathResult import PathResult
 from Map.CSVMatrixReader import CSVMatrixReader
 from Map.MovementCalculator import MovementCalculator
+from Map.LosCalculator import LosCalculator
 
 
 class MapHolder:
@@ -21,6 +22,7 @@ class MapHolder:
         self._Csvreader = CSVMatrixReader()
         self._ConfigProvider=configProvider
         self._MovementCalculator=MovementCalculator(configProvider)
+        self._LosCalculator = LosCalculator(configProvider)
 
     def loadMap(self,mapname):
         self._Csvreader.parse(mapname)
@@ -64,6 +66,17 @@ class MapHolder:
         NodeTo = Point.ToGridNodeFromPoint(pTo, dim.height)
 
         return self._MovementCalculator.mayMove(NodeFrom,NodeTo,self._Graph)
+    def isLOS(self,pFrom:Point,pTo:Point):
+        if not self._Csvreader.fileLoaded:
+            return False
+        if not self._GraphLoaded:
+            return False
+        dim=self.getMapDim()
+        if dim.IsPointInDim(pFrom)==False:
+            return False
+        if dim.IsPointInDim(pTo)==False:
+            return False
+        return self._LosCalculator.IsLos(pFrom,pTo,self._Csvreader.Matrix)
 
     def getPath(self,pFrom:Point,pTo:Point,draw=False):
         if not self._Csvreader.fileLoaded:
@@ -154,6 +167,9 @@ class MapHolder:
     @property
     def graphLoaded(self):
         return self._GraphLoaded
+    @property
+    def map(self):
+        return self._Csvreader.Matrix
 
 
 

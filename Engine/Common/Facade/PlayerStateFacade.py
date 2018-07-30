@@ -7,7 +7,8 @@ class PlayerStatFacade():
         self._ID = id
         self._Score=0
         self._TimeInPosition=0
-        self._IsDestoryed=False;
+        self._IsDestoryed=False
+        self._IsThretened=False
 
 
 
@@ -22,6 +23,11 @@ class PlayerStatFacade():
     @property
     def score(self):
         return self._Score
+
+    @property
+    def Threatened(self):
+        return self._IsThretened
+
 
     @property
     def destroyed(self):
