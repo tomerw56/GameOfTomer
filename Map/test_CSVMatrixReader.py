@@ -28,3 +28,16 @@ class TestCSVMatrixReader(TestCase):
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         self.assertFalse(csvreader.fileLoaded, "error")
+
+    def test_No_RestPoints(self):
+        RealPath = os.path.join(os.path.dirname(__file__), '..Maps/TestMap.csv')
+        csvreader = CSVMatrixReader()
+        csvreader.parse(RealPath)
+        self.assertFalse(len(csvreader.restpoints)>0, "error")
+
+    def test_4_RestPoints(self):
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap.csv')
+        csvreader = CSVMatrixReader()
+        csvreader.parse(RealPath)
+        self.assertTrue(len(csvreader.restpoints) == 4, "OK")
+

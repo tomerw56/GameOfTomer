@@ -170,7 +170,9 @@ class MapHolder:
     @property
     def map(self):
         return self._Csvreader.Matrix
-
+    @property
+    def restPointsLocations(self):
+        return self._Csvreader.restpoints()
 
 
 

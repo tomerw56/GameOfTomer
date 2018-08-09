@@ -2,7 +2,7 @@ from unittest import TestCase
 from Utils.UnitTestDummyConfigProvider import UnitTestDummyConfigProvider
 from Engine.Recording.Recorder import Recorder
 from Engine.Recording.Decoder import Decoder
-from Engine.Common.GameState import GameState
+from Engine.Common.CompleteGameState import CompleteGameState
 from Engine.Common.RestPointState import RestPointState
 from time import sleep
 from Common.Point import Point
@@ -15,14 +15,14 @@ class TestRecordering(TestCase):
 
         ConfigProvider.addValue('Recording', 'record', 'True')
         ConfigProvider.addValue('Recording', 'folder', 'c:\TestJson')
-        gamestate=GameState(100)
+        gamestate=CompleteGameState(100)
         gamestate.playingtime=1
-        gamestate.player1.position=Point(1,1)
-        gamestate.player1.score=10
-        gamestate.player2.position = Point(2, 2)
-        gamestate.player2.score=20
-        gamestate.player1.timeinposition=4
-        gamestate.player2.timeinposition=5
+        gamestate.player_1_GameState.position=Point(1,1)
+        gamestate.player_1_GameState.score=10
+        gamestate.player_2_GameState.position = Point(2, 2)
+        gamestate.player_2_GameState.score=20
+        gamestate.player_1_GameState.timeinposition=4
+        gamestate.player_2_GameState.timeinposition=5
 
         recorder=Recorder(ConfigProvider)
 
@@ -38,14 +38,14 @@ class TestRecordering(TestCase):
 
         ConfigProvider.addValue('Recording', 'record', 'False')
         ConfigProvider.addValue('Recording', 'folder', 'c:\TestJson')
-        gamestate=GameState(100)
+        gamestate=CompleteGameState(100)
         gamestate.playingtime=1
-        gamestate.player1.position=Point(1,1)
-        gamestate.player1.score=10
-        gamestate.player2.position = Point(2, 2)
-        gamestate.player2.score=20
-        gamestate.player1.timeinposition=4
-        gamestate.player2.timeinposition=5
+        gamestate.player_1_GameState.position=Point(1,1)
+        gamestate.player_1_GameState.score=10
+        gamestate.player_2_GameState.position = Point(2, 2)
+        gamestate.player_2_GameState.score=20
+        gamestate.player_1_GameState.timeinposition=4
+        gamestate.player_2_GameState.timeinposition=5
 
         sleep(2)  # Time in seconds.
         recorder=Recorder(ConfigProvider)
@@ -76,14 +76,14 @@ class TestRecordering(TestCase):
         restpoints=[]
         restpoints.append(RestPointState(Point(1,2)))
         restpoints.append(RestPointState(Point(2, 7)))
-        gamestate = GameState(100,restpoints)
+        gamestate = CompleteGameState(100,restpoints)
         gamestate.playingtime = 1
-        gamestate.player1.position = Point(1, 1)
-        gamestate.player1.score = 10
-        gamestate.player2.position = Point(2, 2)
-        gamestate.player2.score = 20
-        gamestate.player1.timeinposition = 4
-        gamestate.player2.timeinposition = 5
+        gamestate.player_1_GameState.position = Point(1, 1)
+        gamestate.player_1_GameState.score = 10
+        gamestate.player_2_GameState.position = Point(2, 2)
+        gamestate.player_2_GameState.score = 20
+        gamestate.player_1_GameState.timeinposition = 4
+        gamestate.player_2_GameState.timeinposition = 5
 
         sleep(2)  # Time in seconds.
         recorder = Recorder(ConfigProvider)

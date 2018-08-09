@@ -1,5 +1,5 @@
 from Utils.ConfigProvider import ConfigProvider
-from Engine.Common.GameState import GameState
+from Engine.Common.CompleteGameState import CompleteGameState
 import os
 from os import listdir
 from os.path import isfile, join
@@ -21,7 +21,7 @@ class Decoder:
         print('Decoder Validity is {0}'.format(self._Valid))
 
 
-    def DecodeAllStates(self)->List[GameState]:
+    def DecodeAllStates(self)->List[CompleteGameState]:
         gamestates=[];
         if not self._Valid:
             return gamestates;
@@ -34,7 +34,7 @@ class Decoder:
                 gamestates.append(gamestate)
         return gamestates
 
-    def DecodeStep(self,step)->GameState:
+    def DecodeStep(self,step)->CompleteGameState:
         gamestate=None
         if not self._Valid:
             return gamestate;

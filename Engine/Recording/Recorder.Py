@@ -1,5 +1,5 @@
 from Utils.ConfigProvider import ConfigProvider
-from Engine.Common.GameState import GameState
+from Engine.Common.CompleteGameState import CompleteGameState
 import os
 import datetime
 import jsonpickle
@@ -19,7 +19,7 @@ class Recorder:
         self._NewFullDir=os.path.join(directory,datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S"))
         os.makedirs(self._NewFullDir)
 
-    def Record(self,gamestate:GameState):
+    def Record(self,gamestate:CompleteGameState):
         if not self._Record:
             return "";
         frozen = jsonpickle.encode(gamestate)

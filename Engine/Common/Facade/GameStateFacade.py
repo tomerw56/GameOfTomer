@@ -4,9 +4,9 @@ from Engine.Common.PlayerState import PlayerState
 from Engine.Common.RestPointState import RestPointState
 from typing import  List
 class GameStateFacade():
-    def __init__(self,totalPlayingTime:int,restPointStates:List[RestPointState]=[]):
-        self._Player1=PlayerState(1)
-        self._Player2 = PlayerState(2)
+    def __init__(self,myPlayerState,enemyPlayerState,totalPlayingTime:int,restPointStates:List[RestPointState]=[]):
+        self._MyPlayer=myPlayerState
+        self._EnemyPlayer = enemyPlayerState
         self._PlayingTime=0
         self._TotalPlayingTime = totalPlayingTime
         self._RestingPoints=restPointStates
@@ -15,12 +15,12 @@ class GameStateFacade():
     def RestingPoints(self):
         return self._RestingPoints
     @property
-    def player1(self):
-        return self._Player1
+    def MyPlayer(self):
+        return self._MyPlayer
 
     @property
-    def player2(self):
-        return self._Player2
+    def EnemyPlayer(self):
+        return self._EnemyPlayer
     @property
     def playingtime(self):
         return self._PlayingTime
@@ -30,4 +30,4 @@ class GameStateFacade():
         return self._TotalPlayingTime
 
     def __str__(self):
-        return 'Player1={0} Player2= {1} PlayingTime={2} TotalPlayingTime={3} '.format(self._Player1, self._Player2,self._PlayingTime,self._TotalPlayingTime)
+        return 'MyPlayer={0} EnemyPlayer= {1} PlayingTime={2} TotalPlayingTime={3} '.format(self._MyPlayer, self._EnemyPlayer,self._PlayingTime,self._TotalPlayingTime)
