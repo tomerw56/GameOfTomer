@@ -4,11 +4,14 @@ from Common.Point import Point
 class PlayerStatFacade():
     def __init__(self,id:int):
         self._Position=Point(0,0)
-        self._ID = id
+        self._ID = int(id)
         self._Score=0
         self._TimeInPosition=0
         self._IsDestoryed=False
         self._IsThretened=False
+        self._ThreatenedTime=0
+        self._ThreateningTime=0
+        self._RestPointTime=0
 
 
 

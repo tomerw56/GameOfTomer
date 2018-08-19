@@ -3,6 +3,7 @@ class Constants:
         self._CoverNumber=100
         self._MaximumAltDif=2
         self._ConnectedGraphVertexWeight=1
+        self._InValidAlt = -1
         self._UnConnectedGraphVertexWeight = 100
 
     @property
@@ -18,3 +19,6 @@ class Constants:
     @property
     def UnConnectedGraphVertexWeight(self):
         return self._UnConnectedGraphVertexWeight
+    @property
+    def InValidAlt(self):
+        return self._InValidAlt

@@ -3,6 +3,7 @@ from Engine.Common.PlayerState import PlayerState
 from Engine.Common.GameState import GameState
 from Engine.Common.Facade.GameStateFacade import GameStateFacade
 from Engine.Common.RestPointState import RestPointState
+from Engine.Common.Facade.VictoryAnalysis import VictoryAnalysis
 from typing import List
 
 
@@ -10,6 +11,7 @@ class CompleteGameState():
     def __init__(self, totalPlayingTime: int, restPointStates: List[RestPointState] = []):
         self._Player1 = PlayerState(1)
         self._Player2 = PlayerState(2)
+        self._VictoryAnalysis=VictoryAnalysis();
         self._PlayingTime = 0
         self._TotalPlayingTime = totalPlayingTime
         self._RestingPoints = restPointStates
@@ -49,6 +51,10 @@ class CompleteGameState():
     @property
     def totalplayingtime(self):
         return self._TotalPlayingTime
+
+    @property
+    def victory(self):
+        return self._VictoryAnalysis
 
     def __str__(self):
         return 'Player1={0} Player2= {1} PlayingTime={2} TotalPlayingTime={3} '.format(self._Player1,

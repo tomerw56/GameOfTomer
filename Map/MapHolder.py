@@ -160,7 +160,11 @@ class MapHolder:
         #we set connectivity
         self._Graph.add_edge(NextCord, cord, weight=self._Consts.ConnectedGraphVertexWeight)
 
-
+    def getAlt(self,location:Point):
+        dim = self.getMapDim()
+        if dim.IsPointInDim(location) == False:
+            return self._Consts.InValidAlt
+        return self._Csvreader.Matrix.item(location.x,location.y)
     @property
     def mapLoaded(self):
         return  self._Csvreader.fileLoaded
@@ -172,7 +176,7 @@ class MapHolder:
         return self._Csvreader.Matrix
     @property
     def restPointsLocations(self):
-        return self._Csvreader.restpoints()
+        return self._Csvreader.restpoints
 
 
 

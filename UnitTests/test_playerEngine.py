@@ -11,7 +11,7 @@ from Utils.UnitTestDummyConfigProvider import UnitTestDummyConfigProvider
 
 class TestPlayerEngine(TestCase):
     def setUp(self):
-        self._RealPath = os.path.join(os.path.dirname(__file__), '..\\..\\Maps\\TestMap.csv')
+        self._RealPath = os.path.join(os.path.dirname(__file__), '..\\Maps\\TestMap.csv')
         self._ConfigProvider = UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '3')
 
@@ -20,8 +20,10 @@ class TestPlayerEngine(TestCase):
         print(path)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
 
-        gamestate=GameState(10,1,2)
+        gamestate=GameState(10,player1,player2)
         engine=PlayerEngine.PlayerEngine(gamestate,self._ConfigProvider,holder)
         self.assertTrue(engine.GetGameState().MyPlayer.id==1)
         self.assertTrue(engine.GetGameState().EnemyPlayer.id == 2)
@@ -31,7 +33,10 @@ class TestPlayerEngine(TestCase):
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
 
-        gamestate = GameState(10, 1, 2)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+
+        gamestate = GameState(10, player1, player2)
         engine = PlayerEngine.PlayerEngine( gamestate, self._ConfigProvider, holder)
         self.assertTrue(engine.GetGameState().MyPlayer.position.x == 0)
         self.assertTrue(engine.GetGameState().EnemyPlayer.position.x==0)
@@ -49,7 +54,10 @@ class TestPlayerEngine(TestCase):
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
 
-        gamestate = GameState(10, 1, 2)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+
+        gamestate = GameState(10, player1, player2)
         engine = PlayerEngine.PlayerEngine( gamestate, self._ConfigProvider, holder)
         PointFrom = Point(0, 0)
         PointTo = Point(1, 2)
@@ -61,7 +69,10 @@ class TestPlayerEngine(TestCase):
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
 
-        gamestate = GameState(10, 1, 2)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+
+        gamestate = GameState(10, player1, player2)
 
         self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '1')
         engine = PlayerEngine.PlayerEngine( gamestate, self._ConfigProvider, holder)
@@ -74,7 +85,10 @@ class TestPlayerEngine(TestCase):
         path = self._RealPath
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
-        gamestate = GameState(10, 1, 2)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+
+        gamestate = GameState(10, player1, player2)
 
         gamestate.MyPlayer.position = Point(1, 1);
 
@@ -91,7 +105,10 @@ class TestPlayerEngine(TestCase):
         path = self._RealPath
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
-        gamestate = GameState(10, 1, 2)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+
+        gamestate = GameState(10, player1, player2)
 
         gamestate.MyPlayer.position = Point(1, 1);
         gamestate.EnemyPlayer.position = Point(1, 3)

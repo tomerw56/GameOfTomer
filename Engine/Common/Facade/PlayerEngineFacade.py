@@ -7,7 +7,7 @@ from Engine.Common.Facade.GameStateFacade import GameStateFacade
 class PlayrerEngineFacade:
 
     def __init__(self,id,map:np.matrix,dimensions:Dimensions):
-        self._ID=id
+        self._ID=int(id)
         self._Dimensions=dimensions
         self._Map=map
 
