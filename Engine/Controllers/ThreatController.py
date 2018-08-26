@@ -13,7 +13,14 @@ class ThreatController:
         self._ThreatTimeOut= int(self._ConfigProvider.getValue("Threat.Config", "ThreatTimeOut"))
         self._ThreatAltDiff = int(self._ConfigProvider.getValue("Threat.Config", "ThreatAltDiff"))
     def GetPlayerThreatState(self,threateningPlayer:PlayerState,threatenedPlayer:PlayerState)->PlayerThreatState:
-        if self._mapHolder.isLOS(threateningPlayer.position,threatenedPlayer.position) and self._IsControllingAlt(threateningPlayer.position,threatenedPlayer.position):
+        isLOS=False
+        control = self._mapHolder.pointscontrol
+        controlledpoints = control[
+            (threateningPlayer.position.x, threateningPlayer.position.y)].controlledpoints
+        for point in controlledpoints:
+            if point == threatenedPlayer.position:
+                isLOS=True
+        if isLOS and self._IsControllingAlt(threateningPlayer.position,threatenedPlayer.position):
             if threatenedPlayer.threatenedTime>self._ThreatTimeOut:
                 return PlayerThreatState.DESTROYED
             else:

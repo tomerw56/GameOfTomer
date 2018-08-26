@@ -32,6 +32,23 @@ class PlayerEngine(PlayrerEngineFacade):
 
     def IsLosToEnemy(self) -> bool:
         return self._mapholder.isLOS(self._GameState.MyPlayer.position, self._GameState.EnemyPlayer.position)
+
+    def IsControllingEnemy(self) -> bool:
+        control=self._mapholder.pointscontrol
+        controlledpoints=control[(self._GameState.MyPlayer.position.x,self._GameState.MyPlayer.position.y)].controlledpoints
+        for point in controlledpoints:
+            if point==self._GameState.EnemyPlayer.position:
+                return True
+        return False
+
+    def IsBeingControlledByEnemy(self) -> bool:
+        control = self._mapholder.pointscontrol
+        controllingpoints = control[
+            (self._GameState.MyPlayer.position.x, self._GameState.MyPlayer.position.y)].controllingpoints
+        for point in controllingpoints:
+            if point == self._GameState.EnemyPlayer.position:
+                return True
+        return False
+
     def GetGameState(self) -> GameState:
         return self._GameState
-

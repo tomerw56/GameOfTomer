@@ -27,10 +27,10 @@ class PlayrerEngineFacade:
     def IsLosFromMeToPoint(self, position: Point) -> bool:
         pass
 
-    def GetEnemyState(self)->PlayerStatFacade:
+    def IsControllingEnemy(self)->bool:
         pass
 
-    def GetMyState(self)->PlayerStatFacade:
+    def IsBeingControlledByEnemy(self)->bool:
         pass
 
     def GetGameState(self)->GameStateFacade:

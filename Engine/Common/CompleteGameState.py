@@ -34,19 +34,21 @@ class CompleteGameState():
 
     @property
     def player_2_State(self):
-        return self._Player_2
+        return self._Player2
 
     @property
     def player_1_State(self):
-        return self._Player_1
+        return self._Player1
 
     @property
     def playingtime(self):
         return self._PlayingTime
 
-    @GameStateFacade.playingtime.setter
+    @playingtime.setter
     def playingtime(self, value):
         self._PlayingTime = value
+        self._Player_1_GameState.playingtime=value
+        self._Player_2_GameState.playingtime = value
 
     @property
     def totalplayingtime(self):

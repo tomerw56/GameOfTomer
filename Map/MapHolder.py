@@ -1,8 +1,4 @@
-import os.path
 import numpy as np
-import pickle
-
-from networkx import nodes
 
 from Common.Dimensions import Dimensions
 from Common.Point import Point
@@ -13,7 +9,7 @@ from Common.PathResult import PathResult
 from Map.CSVMatrixReader import CSVMatrixReader
 from Map.MovementCalculator import MovementCalculator
 from Map.LosCalculator import LosCalculator
-
+from Common.PointsControl import PointsControl
 
 class MapHolder:
     def __init__(self,configProvider):
@@ -31,12 +27,11 @@ class MapHolder:
         else:
             self._Map=np.asmatrix(np.ones((10,10)))
         self._Mapname = mapname
-
+        self._LoadControlledPoints()
         return  self._Csvreader.fileLoaded
     def drawGraph(self):
         if self._GraphLoaded:
             graph_pos = nx.shell_layout(self._Graph)
-
             nx.draw_networkx_nodes(self._Graph, graph_pos, node_size=1000, node_color='blue', alpha=0.3)
             nx.draw_networkx_edges(self._Graph, graph_pos)
             labels = {}
@@ -106,10 +101,28 @@ class MapHolder:
             nx.draw_networkx_edges(self._Graph, graph_pos, edgelist=path_edges, edge_color='r', width=10)
             plt.show()
         return path
+    def _LoadControlledPoints(self):
+        self._PointsControl={}
+        dim=self.getMapDim()
+        for ColIndex in range(0, dim.height):
+            for RowIndex in range(0, dim.width):
+                self._GetControllingPointsForPoint(RowIndex,ColIndex)
+    def _GetControllingPointsForPoint(self,x,y):
+        dim = self.getMapDim()
+        point=Point(x,y)
+        pointcontrol=PointsControl(point)
+        for ColIndex in range(0, dim.height):
+            for RowIndex in range(0, dim.width):
+                targetpoint=Point(RowIndex,ColIndex)
+                if(targetpoint!=point):
+                    if(self._LosCalculator.IsLos(point,targetpoint,self._Csvreader.Matrix)):
+                        pointcontrol.controlledpoints.append(targetpoint)
+                    if (self._LosCalculator.IsLos(targetpoint, point, self._Csvreader.Matrix)):
+                        pointcontrol.controllingpoints.append(targetpoint)
+        self._PointsControl[(x,y)]=pointcontrol
 
     def buildGraph(self):
         dim=self.getMapDim()
-
         labels={}
         self._Graph = nx.Graph()
         for colIndex in range(0, dim.width):
@@ -177,6 +190,10 @@ class MapHolder:
     @property
     def restPointsLocations(self):
         return self._Csvreader.restpoints
+    @property
+    def pointscontrol(self):
+        return self._PointsControl
+
 
 
 

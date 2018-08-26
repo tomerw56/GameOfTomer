@@ -1,6 +1,7 @@
 
 from Utils.ConfigProvider import ConfigProvider
 from Engine.Common.PlayerState import PlayerState
+from Engine.Common.Facade.PlayerStateFacade import PlayerStatFacade
 from Engine.Common.RestPointState import RestPointState
 from typing import  List
 class GameStateFacade():
@@ -15,11 +16,11 @@ class GameStateFacade():
     def RestingPoints(self):
         return self._RestingPoints
     @property
-    def MyPlayer(self):
+    def MyPlayer(self)->PlayerStatFacade:
         return self._MyPlayer
 
     @property
-    def EnemyPlayer(self):
+    def EnemyPlayer(self)->PlayerStatFacade:
         return self._EnemyPlayer
     @property
     def playingtime(self):

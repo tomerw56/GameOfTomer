@@ -24,7 +24,7 @@ class PlayerStatFacade():
         return self._Position
 
     @property
-    def score(self):
+    def score(self)->int:
         return self._Score
 
     @property
@@ -33,20 +33,20 @@ class PlayerStatFacade():
 
 
     @property
-    def destroyed(self):
+    def destroyed(self)->int:
         return self._IsDestoryed
 
     @property
-    def timeinposition(self):
+    def timeinposition(self)->int:
         return self._TimeInPosition
     @property
-    def threatenedTime(self):
+    def threatenedTime(self)->int:
         return self._ThreatenedTime
     @property
-    def threateningTime(self):
+    def threateningTime(self)->int:
         return self._ThreateningTime
     @property
-    def restPointTime(self):
+    def restPointTime(self)->int:
         return self._RestPointTime
 
     def __str__(self):

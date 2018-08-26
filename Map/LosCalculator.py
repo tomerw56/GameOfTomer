@@ -13,41 +13,53 @@ class LosCalculator:
         self._ConfigProvider = configProvider
 
     def IsLos(self, pFrom: Point, pTo: Point, map: np.matrix):
-        try:
-            originalalt = map[pFrom.y, pFrom.x]
-            width, height = map.shape
-            boundingBox = BoundingBoxSourceTarget(map, pFrom, pTo, 200)
-            if boundingBox.valid == False:
-                print('invalid Bounding Box ')
+        alt=map[pFrom.y,pFrom.x]
+        maxalt=0
+        if pFrom==pTo:
+            return True
+        lospoints=self._bres(pFrom,pTo)
+        for point in lospoints:
+            currntalt=map[point.y, point.x]
+            if currntalt>alt:
                 return False
-            t = np.arange(0, 1.01,0.01)
-            vec = np.zeros((len(t),2))
-            vec[0, 0] = pFrom.x
-            vec[0, 1] = pFrom.y
-            vec[100, 0] = pTo.x
-            vec[100, 1] = pTo.y
-            for ii in range(1, len(t) - 1):
-                if pFrom.x==pTo.x:
-                    vec[ii, 0]=pFrom.x
-                else:
-                    vec[ii, 0] =  (pFrom.x * (1 - t[ii]) + pTo.x * (t[ii])) - boundingBox.topleftX
-                if pFrom.y == pTo.y:
-                    vec[ii, 1] = pFrom.y
-                else:
-                    vec[ii, 1] = (pFrom.y * (1 - t[ii]) + pTo.y * (t[ii])) - boundingBox.topleftY
-            fixedindexes = np.zeros((len(t),2))
-            for kk in range(0, len(vec)):
-                fixedindexes[kk,0] =round(vec[kk, 0])
-                fixedindexes[kk,1] =round(vec[kk, 1])
-            for kk in range(0, len(vec)):
-                alt = map.item(int(fixedindexes[kk, 1]), int(fixedindexes[kk,0]))
-                if alt > originalalt:
-                    print('alt diff too high')
-                    return False
+            else:
+                maxalt=currntalt
 
-            return True;
+        return True
+    def _bres(self,pFrom:Point,pTo:Point):
+        end = False
+        x0 = pFrom.x
+        y0 = pFrom.y
+        x1 = pTo.x
+        y1  = pTo.y
+        dx = abs(x1 - x0)
+        dy = abs(y1 - y0)
+        if x0 < x1:
+            sx = 1
+        else:
+            sx = -1
 
-        except nx.exception.NetworkXError:
-            return False
-        except nx.exception.NetworkXError:
-            return False
+        if y0 < y1:
+            sy = 1
+        else:
+            sy = -1
+        err = dx - dy
+        LOSpoints=[]
+        while not end:
+            if x0 == x1 and y0 == y1:
+                end = True
+                LOSpoints.append(Point(x1, y1))
+                return LOSpoints
+            e2 = 2 * err
+            if e2 > -dy:
+                err = err - dy
+                x0 = x0 + sx
+            if e2 < dx:
+                err = err + dx
+                y0 = y0 + sy
+            LOSpoints.append(Point(x0, y0))
+        return LOSpoints
+
+
+
+

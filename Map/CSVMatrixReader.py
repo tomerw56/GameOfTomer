@@ -31,7 +31,7 @@ class CSVMatrixReader:
                 return False
             for rowIndex in range(0,rowlen):
                 if int(row[rowIndex])==0:
-                    self._RestPoints.append(Point(index,rowIndex))
+                    self._RestPoints.append(Point(rowIndex,index))
 
                 self._Matrix .itemset((index, rowIndex),row[rowIndex])
         self._FileLoaded=True
