@@ -5,10 +5,20 @@ class Constants:
         self._ConnectedGraphVertexWeight=1
         self._InValidAlt = -1
         self._UnConnectedGraphVertexWeight = 100
+        self._ReordFileNameTemplate="Step_{0}.json"
+        self._RecordGameMetaDataFileName="GameMetaData.json"
 
     @property
     def CoverNumber(self):
         return self._CoverNumber
+
+    @property
+    def RecordGameMetaDataFileName(self):
+        return self._RecordGameMetaDataFileName
+
+    @property
+    def ReordFileNameTemplate(self):
+        return self._ReordFileNameTemplate
 
     @property
     def MaximumAltDif(self):

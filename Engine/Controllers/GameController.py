@@ -14,6 +14,7 @@ from Engine.Controllers.ThreatController import ThreatController
 from Engine.Controllers.ControllersEnums import PlayerThreatState
 from Engine.Common.Facade.VictoryAnalysis import VictoryAnalysis
 from Map.MapHolder import MapHolder
+from Engine.Common.GameMetaData import GameMetaData
 class GameController:
     def __init__(self,configProvider:ConfigProvider,player1:PlayerFacade,player2:PlayerFacade):
         self._Player1=player1
@@ -43,6 +44,7 @@ class GameController:
 
     def _InitGameState(self):
         self._CompleteGameState=CompleteGameState(self._ConfigProvider.getValue("Game.Config","TotalPlayTime"), self._RestPointController.restpoints);
+        self._GameMetaData=GameMetaData(self._ConfigProvider.getValue("Game.Config","MapFileName"))
 
     def _InitPlayers(self):
         self._CompleteGameState.player_1_State.position=Point(int(self._ConfigProvider.getValue("Player1.Config","StartPositionX")),

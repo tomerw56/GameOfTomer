@@ -58,6 +58,8 @@ class CompleteGameState():
     def victory(self):
         return self._VictoryAnalysis
 
+
+
     def __str__(self):
         return 'Player1={0} Player2= {1} PlayingTime={2} TotalPlayingTime={3} '.format(self._Player1,
                                                                                        self._Player2,
