@@ -90,6 +90,8 @@ class TestRecordering(TestCase):
         self.assertTrue(decoder.DecodeStep(100)  is None)
 
     def test_Decoder_ValidPath_DcodeMetaData(self):
+        sleep(2)  # Time in seconds.
+
         metadatapath="SomePath"
         ConfigProvider = UnitTestDummyConfigProvider()
         ConfigProvider.addValue('Recording', 'record', 'True')
@@ -97,7 +99,6 @@ class TestRecordering(TestCase):
         metadata=GameMetaData(metadatapath)
         recorder = Recorder(ConfigProvider)
         filedir =recorder.WriteMetadata(metadata)
-        sleep(2)  # Time in seconds.
         folder = os.path.dirname(filedir)
         decoder = Decoder(folder)
 
@@ -106,6 +107,8 @@ class TestRecordering(TestCase):
         self.assertTrue(decodedmetadata.infrapath ==metadatapath)
 
     def test_Decoder_ValidPath_DcodeMetaDataAndStates(self):
+        sleep(2)  # Time in seconds.
+
         metadatapath="SomePath"
         ConfigProvider = UnitTestDummyConfigProvider()
         ConfigProvider.addValue('Recording', 'record', 'True')
@@ -192,7 +195,7 @@ class TestRecordering(TestCase):
         self.assertTrue(gamestates[0].RestingPoints[1].position.x == 2)
 
     def test_Decoder_Dcode_And_Draw(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
 
         ConfigProvider = UnitTestDummyConfigProvider()
         ConfigProvider.addValue('Recording', 'record', 'True')

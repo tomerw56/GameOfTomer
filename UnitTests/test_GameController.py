@@ -17,8 +17,8 @@ from time import sleep
 
 class test_GameController(TestCase):
     def setUp(self):
-        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap.csv')
-        self._MovingPath = os.path.join(os.path.dirname(__file__), '../Maps/SimpleMovingMap.csv')
+        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap/Map.csv')
+        self._MovingPath = os.path.join(os.path.dirname(__file__), '../Maps/SimpleMovingMap/Map.csv')
         self._ConfigProvider = UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.Config', 'MapFileName',self._RealPath)
         self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '3')

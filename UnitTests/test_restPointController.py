@@ -10,7 +10,7 @@ class TestRestPointController(TestCase):
     def setUp(self):
 
         self._ConfigProvider=UnitTestDummyConfigProvider()
-        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap.csv')
+        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap/Map.csv')
         self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','3')
         self._ConfigProvider.addValue('RestPoint.Config', 'RestPointTimeToProfit', '3')
         self._ConfigProvider.addValue('RestPoint.Config', 'RestPointTimeToRegenerate', '5')

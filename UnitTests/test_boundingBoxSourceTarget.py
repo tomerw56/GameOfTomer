@@ -7,7 +7,7 @@ import numpy as np;
 
 class TestBoundingBoxSourceTarget(TestCase):
     def test_BB_Valid(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         p1=Point(1,1);
@@ -17,7 +17,7 @@ class TestBoundingBoxSourceTarget(TestCase):
         self.assertTrue(BB.valid)
 
     def test_BB_Valid_Y_OutOfBoundries(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         p1 = Point(1, 1);
@@ -26,7 +26,7 @@ class TestBoundingBoxSourceTarget(TestCase):
         self.assertTrue(BB.valid)
 
     def test_BB_Valid_X_OutOfBoundries(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         p1 = Point(1, 1);
@@ -35,7 +35,7 @@ class TestBoundingBoxSourceTarget(TestCase):
         self.assertTrue(BB.valid)
 
     def test_BB_Dimensions(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         p1=Point(1,1);
@@ -49,7 +49,7 @@ class TestBoundingBoxSourceTarget(TestCase):
         self.assertTrue(BB.bb[3] == 10)
 
     def test_BB_Dimensions_ZeroMargin(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         p1 = Point(1, 1);
@@ -62,7 +62,7 @@ class TestBoundingBoxSourceTarget(TestCase):
         self.assertTrue(BB.bb[3] == 4)
 
     def test_BB_Dimensions_Values_1(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         p1=Point(1,1);
@@ -73,7 +73,7 @@ class TestBoundingBoxSourceTarget(TestCase):
         self.assertTrue(BB.dsmSubset[2, 2] == 2)
 
     def test_BB_Dimensions_Values_2(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\TestMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
         p1=Point(1,1);

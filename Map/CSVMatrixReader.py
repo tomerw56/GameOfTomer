@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import os.path
+
 from Common.Point import Point
 class CSVMatrixReader:
     def __init__(self):

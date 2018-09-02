@@ -8,13 +8,13 @@ import os
 
 class TestGameDrawing(TestCase):
     def test_DrawNoData(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         csvreader=CSVMatrixReader()
         csvreader.parse(RealPath)
         drawMatch=GameDrawing(csvreader.Matrix)
         self.assertTrue(csvreader.fileLoaded, "error")
     def test_DrawAll_PrePlanned(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         csvreader=CSVMatrixReader()
         csvreader.parse(RealPath)
 
@@ -37,7 +37,7 @@ class TestGameDrawing(TestCase):
         self.assertTrue(csvreader.fileLoaded, "error")
 
     def test_DrawAll_FinalState(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
 
@@ -62,7 +62,7 @@ class TestGameDrawing(TestCase):
         self.assertTrue(csvreader.fileLoaded, "error")
 
     def test_DrawAll_FinalState_Destruction(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
 
@@ -88,7 +88,7 @@ class TestGameDrawing(TestCase):
         self.assertTrue(csvreader.fileLoaded, "error")
 
     def test_DrawRandomData(self):
-        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap.csv')
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         csvreader=CSVMatrixReader()
         csvreader.parse(RealPath)
         games = []

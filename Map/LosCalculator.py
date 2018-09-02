@@ -8,9 +8,8 @@ from Common.Point import Point
 
 
 class LosCalculator:
-    def __init__(self, configProvider):
+    def __init__(self):
         self._Consts = Constants()
-        self._ConfigProvider = configProvider
 
     def IsLos(self, pFrom: Point, pTo: Point, map: np.matrix):
         alt=map[pFrom.y,pFrom.x]

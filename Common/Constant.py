@@ -7,6 +7,9 @@ class Constants:
         self._UnConnectedGraphVertexWeight = 100
         self._ReordFileNameTemplate="Step_{0}.json"
         self._RecordGameMetaDataFileName="GameMetaData.json"
+        self._MovementGraphFileName = "MovementGraph.json"
+        self._ControllingPointsFileName = "ControllingPoints.json"
+
 
     @property
     def CoverNumber(self):
@@ -15,6 +18,14 @@ class Constants:
     @property
     def RecordGameMetaDataFileName(self):
         return self._RecordGameMetaDataFileName
+
+    @property
+    def ControllingPointsFileName(self):
+        return self._ControllingPointsFileName
+
+    @property
+    def MovementGraphFileName(self):
+        return self._MovementGraphFileName
 
     @property
     def ReordFileNameTemplate(self):

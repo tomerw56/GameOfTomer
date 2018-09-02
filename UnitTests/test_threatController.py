@@ -13,7 +13,7 @@ class test_threatController(TestCase):
     def setUp(self):
 
         self._ConfigProvider=UnitTestDummyConfigProvider()
-        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap.csv')
+        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap/Map.csv')
         self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','3')
         self._ConfigProvider.addValue('Threat.Config', 'ThreatTimeOut', '3')
         self._ConfigProvider.addValue('Threat.Config', 'ThreatAltDiff', '1')

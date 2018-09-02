@@ -15,8 +15,7 @@ class ThreatController:
     def GetPlayerThreatState(self,threateningPlayer:PlayerState,threatenedPlayer:PlayerState)->PlayerThreatState:
         isLOS=False
         control = self._mapHolder.pointscontrol
-        controlledpoints = control[
-            (threateningPlayer.position.x, threateningPlayer.position.y)].controlledpoints
+        controlledpoints = control[threateningPlayer.position.x][threateningPlayer.position.y].controlledpoints
         for point in controlledpoints:
             if point == threatenedPlayer.position:
                 isLOS=True

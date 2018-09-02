@@ -10,19 +10,19 @@ from Common.PointsControl import PointsControl
 
 class TestMapHolder(TestCase):
     def setUp(self):
-        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap.csv')
-        self._SimpleRealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestSimpleMap.csv')
-        self._NotRealPath = os.path.join(os.path.dirname(__file__), '../Maps/NoMap.csv')
-        self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/NoControllingPointsMap.csv')
+        self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
+        self._SimpleRealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestSimpleMap/Map.csv')
+        self._NotRealPath = os.path.join(os.path.dirname(__file__), '../Maps/NoMap/Map.csv')
+        self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/NoControllingPointsMap/Map.csv')
 
         self._ConfigProvider=UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','3')
         self._Consts=Constants()
     #region Loading
-    def test_mapLoaded_True(self):
-        path= self._RealPath
+    def test_mapLoaded__FullPath_True(self):
+        path = self._RealPath
         print(path)
-        holder =MapHolder(self._ConfigProvider)
+        holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
         self.assertTrue(holder.mapLoaded, "error")
         self.assertTrue(holder.graphLoaded, "error")
@@ -245,26 +245,26 @@ class TestMapHolder(TestCase):
     # endregion
 
     # region Get Controlling_Points
-    def test_Get_ControllingPoints_NoControllingPoints(self):
+    def test_Get_ControllingPoints_1(self):
         path = self._NoControllingPointsMap
         print(path)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
         cotrolledpoints=holder.pointscontrol
-        controllingpointsLen=len(cotrolledpoints[(1,1)].controllingpoints)
-        controlledpointsLen = len(cotrolledpoints[(1,1)].controlledpoints)
+        controllingpointsLen=len(cotrolledpoints[1][1].controllingpoints)
+        controlledpointsLen = len(cotrolledpoints[1][1].controlledpoints)
 
         self.assertTrue(controllingpointsLen == 0, "error")
         self.assertTrue(controlledpointsLen==8, "error")
 
-    def test_Get_ControllingPoints_Simple(self):
+    def test_Get_ControllingPoints_2(self):
         path = self._NoControllingPointsMap
         print(path)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
         cotrolledpoints=holder.pointscontrol;
-        controllingpointsLen=len(cotrolledpoints[(2,2)].controllingpoints)
-        controlledpointsLen = len(cotrolledpoints[(2,2)].controlledpoints)
+        controllingpointsLen=len(cotrolledpoints[2][2].controllingpoints)
+        controlledpointsLen = len(cotrolledpoints[2][2].controlledpoints)
 
         self.assertTrue(controllingpointsLen== 5, "error")
         self.assertTrue(controlledpointsLen==6, "error")
