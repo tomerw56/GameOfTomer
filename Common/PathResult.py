@@ -15,6 +15,10 @@ class PathResult:
     def nodelist(self):
         return self._Nodelist
 
+    @property
+    def length(self):
+        return len(self._Nodelist)
+
     @points.setter
     def points(self, value):
         self._Points = value

@@ -18,15 +18,15 @@ class TestGameDrawing(TestCase):
         csvreader=CSVMatrixReader()
         csvreader.parse(RealPath)
 
-        game1=CompleteGameState(100, []);
+        game1=CompleteGameState(100);
         game1.player_1_State.position=Point(0,0)
         game1.player_2_State.position = Point(9, 9)
 
-        game2 = CompleteGameState(100, []);
+        game2 = CompleteGameState(100);
         game2.player_1_State.position = Point(1, 1)
         game2.player_2_State.position = Point(2, 4)
 
-        game3 = CompleteGameState(100, []);
+        game3 = CompleteGameState(100);
         game3.player_1_State.position = Point(2, 7)
         game3.player_2_State.position = Point(9, 3)
         games=[]
@@ -41,15 +41,15 @@ class TestGameDrawing(TestCase):
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
 
-        game1 = CompleteGameState(100, []);
+        game1 = CompleteGameState(100);
         game1.player_1_State.position = Point(0, 0)
         game1.player_2_State.position = Point(9, 9)
 
-        game2 = CompleteGameState(100, []);
+        game2 = CompleteGameState(100);
         game2.player_1_State.position = Point(1, 1)
         game2.player_2_State.position = Point(2, 4)
 
-        game3 = CompleteGameState(100, []);
+        game3 = CompleteGameState(100);
         game3.player_1_State.position = Point(2, 7)
         game3.player_2_State.position = Point(9, 3)
         game3.player_1_State.score=10
@@ -66,15 +66,15 @@ class TestGameDrawing(TestCase):
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
 
-        game1 = CompleteGameState(100, []);
+        game1 = CompleteGameState(100);
         game1.player_1_State.position = Point(0, 0)
         game1.player_2_State.position = Point(9, 9)
 
-        game2 = CompleteGameState(100, []);
+        game2 = CompleteGameState(100);
         game2.player_1_State.position = Point(1, 1)
         game2.player_2_State.position = Point(2, 4)
 
-        game3 = CompleteGameState(100, []);
+        game3 = CompleteGameState(100);
         game3.player_1_State.position = Point(2, 7)
         game3.player_2_State.position = Point(9, 3)
         game3.player_1_State.score = 10
@@ -93,7 +93,7 @@ class TestGameDrawing(TestCase):
         csvreader.parse(RealPath)
         games = []
         for idx in range (100):
-            game=CompleteGameState(100, []);
+            game=CompleteGameState(100);
             self._RandomizeGame(game)
             game.playingtime=idx
             games.append(game)

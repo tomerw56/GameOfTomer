@@ -3,6 +3,7 @@ from Engine.Common.PlayerState import PlayerState
 from Engine.Common.GameState import GameState
 from Utils.ConfigProvider import ConfigProvider
 from Map.MapHolder import MapHolder
+from Common.PathResult import PathResult
 from Common.Point import Point
 
 class PlayerEngine(PlayrerEngineFacade):
@@ -23,6 +24,11 @@ class PlayerEngine(PlayrerEngineFacade):
 
     def MayMoveBetweenPoints(self, pFrom: Point,pTo:Point) -> bool:
         return  self._mapholder.mayMove(pFrom,pTo)
+
+    def GetPathForMe(self,position:Point)->PathResult:
+        return self._mapholder.getPath(self._GameState.MyPlayer.position, position)
+    def GetPathForBetweenPoints(self, pFrom: Point, pTo: Point)->PathResult:
+        return self._mapholder.getPath(pFrom, pTo)
 
     def IsLosBetweenPoints(self, pFrom: Point,pTo:Point) -> bool:
         return self._mapholder.isLOS(pFrom,pTo)

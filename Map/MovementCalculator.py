@@ -23,7 +23,7 @@ class MovementCalculator:
             path = nx.shortest_path(graph,pFrom,pTo)
             NodeList=[]
             for idx in range(0,len(path)):
-                point=Point(graph.nodes[idx]["X"],graph.nodes[idx]["Y"])
+                point=Point(graph.nodes[path[idx]]["X"],graph.nodes[path[idx]]["Y"])
                 NodeList.append(point)
             maximumAllowedPath = self._ConfigProvider.getValue('Game.MovementDefinations', 'maximumAllowedPath')
 

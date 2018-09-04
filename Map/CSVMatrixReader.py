@@ -6,7 +6,6 @@ from Common.Point import Point
 class CSVMatrixReader:
     def __init__(self):
         self._RowCount = 0
-        self._RestPoints=[]
         self._FileLoaded=False
 
     def parse(self,fileName):
@@ -31,9 +30,6 @@ class CSVMatrixReader:
                 print("Row {0} is with {1} Items -which makes the file not square".format(index,rowlen))
                 return False
             for rowIndex in range(0,rowlen):
-                if int(row[rowIndex])==0:
-                    self._RestPoints.append(Point(rowIndex,index))
-
                 self._Matrix .itemset((index, rowIndex),row[rowIndex])
         self._FileLoaded=True
         return True
@@ -46,8 +42,6 @@ class CSVMatrixReader:
     def Matrix(self):
         return self._Matrix
 
-    @property
-    def restpoints(self):
-        return self._RestPoints
+
 
 

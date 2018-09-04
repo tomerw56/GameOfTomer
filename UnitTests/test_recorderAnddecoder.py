@@ -4,7 +4,6 @@ from Engine.Recording.Recorder import Recorder
 from Engine.Recording.Decoder import Decoder
 from Engine.Common.CompleteGameState import CompleteGameState
 from Engine.Common.GameMetaData import GameMetaData
-from Engine.Common.RestPointState import RestPointState
 from time import sleep
 from Common.Point import Point
 import os
@@ -114,10 +113,8 @@ class TestRecordering(TestCase):
         ConfigProvider.addValue('Recording', 'record', 'True')
         ConfigProvider.addValue('Recording', 'folder', 'c:\TestJson')
 
-        restpoints = []
-        restpoints.append(RestPointState(Point(1, 2)))
-        restpoints.append(RestPointState(Point(2, 7)))
-        gamestate = CompleteGameState(100, restpoints)
+
+        gamestate = CompleteGameState(100)
         gamestate.playingtime = 1
         gamestate.player_1_GameState.position = Point(1, 1)
         gamestate.player_1_GameState.score = 10
@@ -147,9 +144,7 @@ class TestRecordering(TestCase):
         self.assertTrue(gamestates[0].playingtime == 1)
         self.assertTrue(gamestates[1].playingtime == 2)
         self.assertTrue(gamestates[2].playingtime == 3)
-        self.assertTrue(len(gamestates[0].RestingPoints) == 2)
-        self.assertTrue(gamestates[0].RestingPoints[0].position.x == 1)
-        self.assertTrue(gamestates[0].RestingPoints[1].position.x == 2)
+
 
         self.assertTrue(decodedmetadata.infrapath ==metadatapath)
 
@@ -160,10 +155,8 @@ class TestRecordering(TestCase):
         ConfigProvider = UnitTestDummyConfigProvider()
         ConfigProvider.addValue('Recording', 'record', 'True')
         ConfigProvider.addValue('Recording', 'folder', 'c:\TestJson')
-        restpoints=[]
-        restpoints.append(RestPointState(Point(1,2)))
-        restpoints.append(RestPointState(Point(2, 7)))
-        gamestate = CompleteGameState(100,restpoints)
+
+        gamestate = CompleteGameState(100)
         gamestate.playingtime = 1
         gamestate.player_1_GameState.position = Point(1, 1)
         gamestate.player_1_GameState.score = 10
@@ -190,9 +183,7 @@ class TestRecordering(TestCase):
         self.assertTrue(gamestates[0].playingtime == 1)
         self.assertTrue(gamestates[1].playingtime == 2)
         self.assertTrue(gamestates[2].playingtime == 3)
-        self.assertTrue(len(gamestates[0].RestingPoints) == 2)
-        self.assertTrue(gamestates[0].RestingPoints[0].position.x == 1)
-        self.assertTrue(gamestates[0].RestingPoints[1].position.x == 2)
+
 
     def test_Decoder_Dcode_And_Draw(self):
         RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
@@ -203,15 +194,13 @@ class TestRecordering(TestCase):
 
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
-        restpoints = []
-        restpoints.append(RestPointState(Point(1, 2)))
-        restpoints.append(RestPointState(Point(2, 7)))
+
         recorder = Recorder(ConfigProvider)
         metadata = GameMetaData(RealPath)
         recorder.WriteMetadata(metadata)
 
         for idx in range(100):
-            game = CompleteGameState(100, restpoints);
+            game = CompleteGameState(100);
             self._RandomizeGame(game)
             game.playingtime = idx
             filedir=recorder.Record(game)

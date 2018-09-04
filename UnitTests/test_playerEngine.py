@@ -14,7 +14,7 @@ class TestPlayerEngine(TestCase):
         self._RealPath = os.path.join(os.path.dirname(__file__), '..\\Maps\\TestMap\\Map.csv')
         self._ConfigProvider = UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '3')
-
+        self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'False')
     def test_Creation(self):
         path = self._RealPath
         print(path)
@@ -120,5 +120,43 @@ class TestPlayerEngine(TestCase):
         p2 = Point(6, 5);
         self.assertFalse(engine.IsLosBetweenPoints(p1, p2))
 
+    def test_GetPath_Success(self):
+        path = self._RealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+        gamestate = GameState(player1, player2,10)
+        gamestate.MyPlayer.position = Point(1, 1);
+        gamestate.EnemyPlayer.position = Point(1, 3)
+        engine = PlayerEngine.PlayerEngine(gamestate, self._ConfigProvider, holder)
+        path=engine.GetPathForMe(gamestate.EnemyPlayer.position)
+        self.assertTrue(path.valid)
 
+    def test_GetPath_Success_and_Draw(self):
+        path = self._RealPath
+        self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'True')
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+        gamestate = GameState(player1, player2, 10)
+        gamestate.MyPlayer.position = Point(1, 1);
+        gamestate.EnemyPlayer.position = Point(1, 3)
+        engine = PlayerEngine.PlayerEngine(gamestate, self._ConfigProvider, holder)
+        path = engine.GetPathForMe(gamestate.EnemyPlayer.position)
+        self.assertTrue(path.valid)
+
+    def test_GetPath_Fail(self):
+        path = self._RealPath
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        player1 = PlayerState(1)
+        player2 = PlayerState(2)
+        gamestate = GameState(player1, player2,10)
+        gamestate.MyPlayer.position = Point(1, 7);
+        gamestate.EnemyPlayer.position = Point(9,9)
+        engine = PlayerEngine.PlayerEngine(gamestate, self._ConfigProvider, holder)
+        path=engine.GetPathForMe(gamestate.EnemyPlayer.position)
+        self.assertFalse(path.valid)
 

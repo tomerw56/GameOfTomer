@@ -17,6 +17,7 @@ class test_threatController(TestCase):
         self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','3')
         self._ConfigProvider.addValue('Threat.Config', 'ThreatTimeOut', '3')
         self._ConfigProvider.addValue('Threat.Config', 'ThreatAltDiff', '1')
+        self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph','False')
 
     def test_ThreatController_Threat(self):
         path = self._RealPath
@@ -33,7 +34,7 @@ class test_threatController(TestCase):
 
     def test_ThreatController_NotThreat(self):
         path = self._RealPath
-        p1 = Point(3, 4)
+        p1 = Point(6, 4)
         p2 = Point(6, 6)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)

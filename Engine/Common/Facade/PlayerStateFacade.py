@@ -45,9 +45,7 @@ class PlayerStatFacade():
     @property
     def threateningTime(self)->int:
         return self._ThreateningTime
-    @property
-    def restPointTime(self)->int:
-        return self._RestPointTime
+
 
     def __str__(self):
-        return 'ID={0} Score= {1} Position={2} TimeInPosition={3} ThreatenedTime={4} ThreateningTime={5} RestPointTime={6}'.format(self._ID, self._Score,self._Position,self._TimeInPosition,self._ThreatenedTime,self._ThreateningTime,self._RestPointTime)
+        return 'ID={0} Score= {1} Position={2} TimeInPosition={3} ThreatenedTime={4} ThreateningTime={5}'.format(self._ID, self._Score,self._Position,self._TimeInPosition,self._ThreatenedTime,self._ThreateningTime)

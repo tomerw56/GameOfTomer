@@ -2,6 +2,7 @@
 from Utils.ConfigProvider import ConfigProvider
 from Engine.Common.Facade.PlayerStateFacade import PlayerStatFacade
 from Common.MovmentCommand import MovementCommand
+from Common.Point import Point
 class PlayerState(PlayerStatFacade):
     def __init__(self,id:int):
         PlayerStatFacade.__init__(self,id)
@@ -9,12 +10,12 @@ class PlayerState(PlayerStatFacade):
     def UpdateStatesDueToNoMovement(self):
         self._TimeInPosition  +=1
 
-    def UpdateStatesDueToMovement(self):
+    def UpdateStatesDueToMovement(self,pTo:Point):
         self._ThreatenedTime = 0
         self._ThreateningTime = 0
-        self._RestPointTime = 0
         self._TimeInPosition = 0
         self._IsThretened = False
+        self._Position=pTo
 
     @PlayerStatFacade.threatenedTime.setter
     def threatenedTime(self, value):
@@ -24,9 +25,6 @@ class PlayerState(PlayerStatFacade):
     def threateningTime(self, value):
         self._ThreateningTime = value
 
-    @PlayerStatFacade.restPointTime.setter
-    def restPointTime(self, value):
-        self._RestPointTime = value
 
     @PlayerStatFacade.timeinposition.setter
     def timeinposition(self, value):

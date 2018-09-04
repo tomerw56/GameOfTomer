@@ -31,7 +31,11 @@ class Point:
 
     @staticmethod
     def GetEmpty():
-        return Point(0,0)
+        return Point(-1,-1)
+
+    @property
+    def IsEmpty(self):
+        return self._Y==-1 and self._X==-1
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__)

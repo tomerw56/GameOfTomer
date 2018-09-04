@@ -9,7 +9,7 @@ class MovementCommand:
 
     @property
     def IsEmpty(self):
-        return self._To.x==-1&self._To.y==-1
+        return self._To.IsEmpty
     @staticmethod
     def GetEmpty():
         return MovementCommand(Point(-1,-1))

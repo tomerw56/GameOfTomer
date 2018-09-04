@@ -1,6 +1,5 @@
 from Utils.ConfigProvider import ConfigProvider
 from Common.Point import Point
-from Engine.Common.RestPointState import RestPointState
 from Engine.Controllers.ControllersEnums import PlayerThreatState
 from Engine.Common.PlayerState import PlayerState
 from Map.MapHolder import MapHolder

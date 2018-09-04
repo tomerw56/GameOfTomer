@@ -14,8 +14,9 @@ class TestMapHolder(TestCase):
         self._SimpleRealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestSimpleMap/Map.csv')
         self._NotRealPath = os.path.join(os.path.dirname(__file__), '../Maps/NoMap/Map.csv')
         self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/NoControllingPointsMap/Map.csv')
-
         self._ConfigProvider=UnitTestDummyConfigProvider()
+        self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'False')
+
         self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','3')
         self._Consts=Constants()
     #region Loading
@@ -161,7 +162,7 @@ class TestMapHolder(TestCase):
         holder.loadMap(path)
         PointFrom = Point(0, 0)
         PointTo = Point(1, 2)
-        path = holder.getPath(PointFrom, PointTo,draw=True)
+        path = holder.getPath(PointFrom, PointTo)
 
         self.assertTrue(path.valid, "error")
 
@@ -233,14 +234,14 @@ class TestMapHolder(TestCase):
         print(path)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
-        self.assertTrue(holder.getAlt(Point(4, 3)) == 3, "error")
+        self.assertTrue(holder.getAlt(Point(4, 3)) == 2, "error")
 
     def test_GetAlt_Success_2(self):
         path = self._RealPath
         print(path)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
-        self.assertTrue(holder.getAlt(Point(1, 2)) == 2, "error")
+        self.assertTrue(holder.getAlt(Point(1, 2)) == 3, "error")
 
     # endregion
 

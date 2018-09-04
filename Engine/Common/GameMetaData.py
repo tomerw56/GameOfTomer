@@ -2,7 +2,7 @@ from Utils.ConfigProvider import ConfigProvider
 from Engine.Common.PlayerState import PlayerState
 from Engine.Common.GameState import GameState
 from Engine.Common.Facade.GameStateFacade import GameStateFacade
-from Engine.Common.RestPointState import RestPointState
+
 from Engine.Common.Facade.VictoryAnalysis import VictoryAnalysis
 from typing import List
 from time import time

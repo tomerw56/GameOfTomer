@@ -2,27 +2,21 @@ from Utils.ConfigProvider import ConfigProvider
 from Engine.Common.PlayerState import PlayerState
 from Engine.Common.GameState import GameState
 from Engine.Common.Facade.GameStateFacade import GameStateFacade
-from Engine.Common.RestPointState import RestPointState
 from Engine.Common.Facade.VictoryAnalysis import VictoryAnalysis
 from typing import List
 
 
 class CompleteGameState():
-    def __init__(self, totalPlayingTime: int, restPointStates: List[RestPointState] = []):
+    def __init__(self, totalPlayingTime: int):
         self._Player1 = PlayerState(1)
         self._Player2 = PlayerState(2)
         self._VictoryAnalysis=VictoryAnalysis();
         self._PlayingTime = 0
         self._TotalPlayingTime = totalPlayingTime
-        self._RestingPoints = restPointStates
-        self._Player_1_GameState = GameState(self._Player1, self._Player2, totalPlayingTime,
-                                             self._RestingPoints);
-        self._Player_2_GameState = GameState(self._Player2, self._Player1, totalPlayingTime,
-                                             self._RestingPoints);
 
-    @property
-    def RestingPoints(self):
-        return self._RestingPoints
+        self._Player_1_GameState = GameState(self._Player1, self._Player2, totalPlayingTime);
+        self._Player_2_GameState = GameState(self._Player2, self._Player1, totalPlayingTime);
+
 
     @property
     def player_2_GameState(self):

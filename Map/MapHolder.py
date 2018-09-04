@@ -26,6 +26,8 @@ class MapHolder:
         self._Csvreader=CSVMatrixReader()
         self._LosCalculator = LosCalculator()
         self._GraphLoaded=False
+        self._DrawGraphs=bool(self._ConfigProvider.getValue('Game.Config', 'DrawMapHolderGraph').lower() in ("true"))
+
 
     def loadMap(self,mapname):
         self._Csvreader.parse(mapname)
@@ -100,7 +102,7 @@ class MapHolder:
             return False
         return self._LosCalculator.IsLos(pFrom,pTo,self._Csvreader.Matrix)
 
-    def getPath(self,pFrom:Point,pTo:Point,draw=False):
+    def getPath(self,pFrom:Point,pTo:Point):
         if not self._Csvreader.fileLoaded:
             return PathResult([],False)
         if not self._GraphLoaded:
@@ -110,22 +112,33 @@ class MapHolder:
             return  PathResult([],False)
         if dim.IsPointInDim(pTo)==False:
             return  PathResult([],False)
+        if(pFrom==pTo):
+            return PathResult(pTo,True)
         NodeFrom = Point.ToGridNodeFromPoint(pFrom, dim.height)
         NodeTo = Point.ToGridNodeFromPoint(pTo, dim.height)
         path=self._MovementCalculator.getPath(NodeFrom,NodeTo,self._Graph)
-        if draw and path.valid:
-            graph_pos = nx.shell_layout(self._Graph)
+        if self._DrawGraphs and path.valid:
+            # we set connectivity
+            drawingGraph=nx.Graph()
+            for idx in range(len(path.nodelist)):
 
-            nx.draw_networkx_nodes(self._Graph, graph_pos, node_size=1000, node_color='blue', alpha=0.3)
-            nx.draw_networkx_edges(self._Graph, graph_pos)
+                drawingGraph.add_node(idx)
+                drawingGraph.nodes[idx]["X"] = path.points[idx].x
+                drawingGraph.nodes[idx]["Y"] = path.points[idx].y
+                drawingGraph.nodes[idx]["RealID"] = path.nodelist[idx]
+
+            for idx in range(len(path.nodelist)):
+                for inneridx in range(len(path.nodelist)):
+                    if(idx!=inneridx and self._Graph.has_edge(path.nodelist[idx],path.nodelist[inneridx])):
+                        drawingGraph.add_edge(idx,inneridx, weight=self._Consts.ConnectedGraphVertexWeight)
+
+            graph_pos = nx.shell_layout(drawingGraph)
+            nx.draw_networkx_nodes(drawingGraph, graph_pos, node_size=1000, node_color='blue', alpha=0.3)
+            nx.draw_networkx_edges(drawingGraph, graph_pos)
             labels = {}
-            for Idx in range(0, len(self._Graph.nodes().keys())):
-                labels[Idx] = "({0}-{1})".format(self._Graph.nodes[Idx]["X"], self._Graph.nodes[Idx]["Y"])
-            nx.draw_networkx_labels(self._Graph, graph_pos, labels=labels, font_size=12, font_family='sans-serif')
-
-            path_edges = [(path.nodelist[n], path.nodelist[n + 1]) for n in range(len(path.nodelist) - 1)]
-
-            nx.draw_networkx_edges(self._Graph, graph_pos, edgelist=path_edges, edge_color='r', width=10)
+            for Idx in range(0, len(drawingGraph.nodes().keys())):
+                labels[Idx] = "({0}-{1})".format(drawingGraph.nodes[Idx]["X"],drawingGraph.nodes[Idx]["Y"])
+            nx.draw_networkx_labels(drawingGraph, graph_pos, labels=labels, font_size=12, font_family='sans-serif')
             plt.show()
         return path
 
@@ -133,7 +146,8 @@ class MapHolder:
         dim = self.getMapDim()
         if dim.IsPointInDim(location) == False:
             return self._Consts.InValidAlt
-        return self._Csvreader.Matrix.item(location.x,location.y)
+        nodeloc = Point.ToGridNodeFromPoint(location, dim.height)
+        return self._Csvreader.Matrix.item(nodeloc)
     @property
     def mapLoaded(self):
         return  self._Csvreader.fileLoaded
@@ -143,9 +157,6 @@ class MapHolder:
     @property
     def map(self):
         return self._Csvreader.Matrix
-    @property
-    def restPointsLocations(self):
-        return self._Csvreader.restpoints
     @property
     def pointscontrol(self):
         return self._PointsControl

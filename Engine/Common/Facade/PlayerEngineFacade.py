@@ -2,6 +2,7 @@ from Utils.ConfigProvider import ConfigProvider
 from Common.Point import Point
 from Common.Dimensions import Dimensions
 import numpy as np
+from Common.PathResult import  PathResult
 from Engine.Common.Facade.PlayerStateFacade import PlayerStatFacade
 from Engine.Common.Facade.GameStateFacade import GameStateFacade
 class PlayrerEngineFacade:
@@ -16,6 +17,11 @@ class PlayrerEngineFacade:
         pass
 
     def MayMoveBetweenPoints(self, pFrom: Point, pTo: Point) -> bool:
+        pass
+
+    def GetPathForMe(self,position:Point)->PathResult:
+        pass
+    def GetPathForBetweenPoints(self, pFrom: Point, pTo: Point)->PathResult:
         pass
 
     def IsLosToEnemy(self,position:Point)->bool:

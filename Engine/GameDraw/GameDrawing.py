@@ -44,7 +44,7 @@ class GameDrawing():
                 self._Player2StatDrawn = False
                 self._Player_1_threatenedTime=None
                 self._Player_1_threateningTime = None
-                self._Player_1_restPointTime = None
+
                 self._Player_1_timeinposition = None
                 self._Player_1_threatened = None
                 self._Player_1_destroyed = None
@@ -52,7 +52,7 @@ class GameDrawing():
 
                 self._Player_2_threatenedTime = None
                 self._Player_2_threateningTime = None
-                self._Player_2_restPointTime = None
+
                 self._Player_2_timeinposition = None
                 self._Player_2_threatened = None
                 self._Player_2_destroyed = None
@@ -146,23 +146,19 @@ class GameDrawing():
                                                             verticalalignment='bottom', horizontalalignment='left',
                                                             transform=ax.transAxes,
                                                             color=self._Player_1_Color, fontsize=6)
-                    self._Player_1_restPointTime = ax.text(0.1, 0.11, '',
+                    self._Player_1_timeinposition = ax.text(0.1, 0.11, '',
                                                             verticalalignment='bottom', horizontalalignment='left',
                                                             transform=ax.transAxes,
                                                             color=self._Player_1_Color, fontsize=6)
-                    self._Player_1_timeinposition = ax.text(0.1, 0.08, '',
+                    self._Player_1_threatened = ax.text(0.1, 0.08 ,'',
                                                             verticalalignment='bottom', horizontalalignment='left',
                                                             transform=ax.transAxes,
                                                             color=self._Player_1_Color, fontsize=6)
-                    self._Player_1_threatened = ax.text(0.1, 0.05 ,'',
+                    self._Player_1_destroyed = ax.text(0.1, 0.05, '',
                                                             verticalalignment='bottom', horizontalalignment='left',
                                                             transform=ax.transAxes,
                                                             color=self._Player_1_Color, fontsize=6)
-                    self._Player_1_destroyed = ax.text(0.1, 0.02, '',
-                                                            verticalalignment='bottom', horizontalalignment='left',
-                                                            transform=ax.transAxes,
-                                                            color=self._Player_1_Color, fontsize=6)
-                    self._Player_1_score = ax.text(0.1, -0.01, '',
+                    self._Player_1_score = ax.text(0.1, 0.02, '',
                                                        verticalalignment='bottom', horizontalalignment='left',
                                                        transform=ax.transAxes,
                                                        color=self._Player_1_Color, fontsize=6)
@@ -182,23 +178,20 @@ class GameDrawing():
                                                              verticalalignment='bottom', horizontalalignment='left',
                                                              transform=ax.transAxes,
                                                              color=self._Player_2_Color, fontsize=6)
-                    self._Player_2_restPointTime = ax.text(0.4, 0.11, '',
-                                                           verticalalignment='bottom', horizontalalignment='left',
-                                                           transform=ax.transAxes,
-                                                           color=self._Player_2_Color, fontsize=6)
-                    self._Player_2_timeinposition = ax.text(0.4, 0.08, '',
+
+                    self._Player_2_timeinposition = ax.text(0.4, 0.11, '',
                                                             verticalalignment='bottom', horizontalalignment='left',
                                                             transform=ax.transAxes,
                                                             color=self._Player_2_Color, fontsize=6)
-                    self._Player_2_threatened = ax.text(0.4, 0.05, '',
+                    self._Player_2_threatened = ax.text(0.4, 0.08, '',
                                                         verticalalignment='bottom', horizontalalignment='left',
                                                         transform=ax.transAxes,
                                                         color=self._Player_2_Color, fontsize=6)
-                    self._Player_2_destroyed = ax.text(0.4, 0.02, '',
+                    self._Player_2_destroyed = ax.text(0.4, 0.05, '',
                                                        verticalalignment='bottom', horizontalalignment='left',
                                                        transform=ax.transAxes,
                                                        color=self._Player_2_Color, fontsize=6)
-                    self._Player_2_score = ax.text(0.4, -0.01, '',
+                    self._Player_2_score = ax.text(0.4, 0.02, '',
                                                    verticalalignment='bottom', horizontalalignment='left',
                                                    transform=ax.transAxes,
                                                    color=self._Player_2_Color, fontsize=6)
@@ -206,7 +199,6 @@ class GameDrawing():
 
                 self._Player_1_threatenedTime.set_text("threatenedTime: {0}".format(gamestate.player_1_State.threatenedTime))
                 self._Player_1_threateningTime.set_text("threateningTime: {0}".format(gamestate.player_1_State.threateningTime))
-                self._Player_1_restPointTime.set_text("restPointTime: {0}".format(gamestate.player_1_State.restPointTime))
                 self._Player_1_timeinposition.set_text("timeinposition: {0}".format(gamestate.player_1_State.timeinposition))
                 self._Player_1_threatened.set_text("threatened: {0}".format(gamestate.player_1_State.threatened))
                 self._Player_1_destroyed.set_text("destroyed: {0}".format(gamestate.player_1_State.destroyed))
@@ -216,8 +208,6 @@ class GameDrawing():
                     "threatenedTime: {0}".format(gamestate.player_2_State.threatenedTime))
                 self._Player_2_threateningTime.set_text(
                     "threateningTime: {0}".format(gamestate.player_2_State.threateningTime))
-                self._Player_2_restPointTime.set_text(
-                    "restPointTime: {0}".format(gamestate.player_2_State.restPointTime))
                 self._Player_2_timeinposition.set_text(
                     "timeinposition: {0}".format(gamestate.player_2_State.timeinposition))
                 self._Player_2_threatened.set_text("threatened: {0}".format(gamestate.player_2_State.threatened))

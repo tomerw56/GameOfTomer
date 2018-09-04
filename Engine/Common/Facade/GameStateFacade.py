@@ -2,19 +2,16 @@
 from Utils.ConfigProvider import ConfigProvider
 from Engine.Common.PlayerState import PlayerState
 from Engine.Common.Facade.PlayerStateFacade import PlayerStatFacade
-from Engine.Common.RestPointState import RestPointState
+
 from typing import  List
 class GameStateFacade():
-    def __init__(self,myPlayerState:PlayerState,enemyPlayerState:PlayerState,totalPlayingTime:int,restPointStates:List[RestPointState]=[]):
+    def __init__(self,myPlayerState:PlayerState,enemyPlayerState:PlayerState,totalPlayingTime:int):
         self._MyPlayer=myPlayerState
         self._EnemyPlayer = enemyPlayerState
         self._PlayingTime=0
         self._TotalPlayingTime = totalPlayingTime
-        self._RestingPoints=restPointStates
 
-    @property
-    def RestingPoints(self):
-        return self._RestingPoints
+
     @property
     def MyPlayer(self)->PlayerStatFacade:
         return self._MyPlayer

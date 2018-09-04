@@ -21,7 +21,9 @@ class test_GameController(TestCase):
         self._MovingPath = os.path.join(os.path.dirname(__file__), '../Maps/SimpleMovingMap/Map.csv')
         self._ConfigProvider = UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.Config', 'MapFileName',self._RealPath)
+        self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'False')
         self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '3')
+        self._ConfigProvider.addValue('NoMovement.Config', 'PointDecTime', '5')
         self._ConfigProvider.addValue('RestPoint.Config', 'RestPointTimeToProfit', '3')
         self._ConfigProvider.addValue('RestPoint.Config', 'RestPointTimeToRegenerate', '5')
         self._ConfigProvider.addValue('Game.Config','TotalPlayTime', '20')
@@ -47,7 +49,7 @@ class test_GameController(TestCase):
         playerfacade2=NoMovePlayerFacade()
         gamecontroller = GameController(self._ConfigProvider,playerfacade1,playerfacade2)
         gamecontroller.Run()
-        self.assertTrue(gamecontroller.VictoryReason.winningireason==WinnigReason.GAME_TIME_OUT, "OK")
+        self.assertTrue(gamecontroller.VictoryReason.winningireason==WinnigReason.NO_WIN, "OK")
         self.assertTrue(gamecontroller.VictoryReason.winner==WinnigPlayer.NO_WINNER, "OK")
 
     def test_GameController_SimpleRun_Destruction(self):
@@ -71,8 +73,8 @@ class test_GameController(TestCase):
         self._ConfigProvider.addValue('Player1.Config', 'StartPositionY', '3')
         gamecontroller = GameController(self._ConfigProvider, playerfacade1, playerfacade2)
         gamecontroller.Run()
-        self.assertTrue(gamecontroller.VictoryReason.winningireason == WinnigReason.SCORE, "OK")
-        self.assertTrue(gamecontroller.VictoryReason.winner == WinnigPlayer.PLAYER_1, "OK")
+        self.assertTrue(gamecontroller.VictoryReason.winningireason == WinnigReason.NO_WIN, "OK")
+        self.assertTrue(gamecontroller.VictoryReason.winner == WinnigPlayer.NO_WINNER, "OK")
     def test_GameController_SimpleRun_Score_Chack(self):
         sleep(2)  # Time in seconds.
         playerfacade1 = NoMovePlayerFacade()
@@ -85,7 +87,9 @@ class test_GameController(TestCase):
         self._ConfigProvider.addValue('RestPoint.Config', 'RestPointTimeToRegenerate', '5')
         gamecontroller = GameController(self._ConfigProvider, playerfacade1, playerfacade2)
         gamecontroller.Run()
-        self.assertTrue(gamecontroller.Player_1_State.score == 3, "OK")
+        self.assertTrue(gamecontroller.VictoryReason.winner==WinnigPlayer.NO_WINNER, "OK")
+        self.assertTrue(gamecontroller.VictoryReason.winningireason==WinnigReason.NO_WIN, "OK")
+        self.assertTrue(gamecontroller.Player_1_State.score == -5, "OK")
 
 
     def test_GameController_Exception(self):
