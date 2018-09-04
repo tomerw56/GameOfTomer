@@ -5,6 +5,8 @@ from Common.Point import Point
 from UnitTests.UnitTest_PlayerFacade.NoMovePlayerFacade import NoMovePlayerFacade
 from UnitTests.UnitTest_PlayerFacade.EvadingPlayerFacade import EvadingPlayerFacade
 from UnitTests.UnitTest_PlayerFacade.ExceptionThrowingPlayerFacade import ExceptionThrowingPlayerFacade
+from UnitTests.UnitTest_PlayerFacade.SamePointMovingPlayerFacade import SamePointMovingPlayerFacade
+
 from Utils.UnitTestDummyConfigProvider import UnitTestDummyConfigProvider
 import os.path
 from Engine.Common.Facade.Enums import WinnigPlayer
@@ -19,6 +21,7 @@ class test_GameController(TestCase):
     def setUp(self):
         self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap/Map.csv')
         self._MovingPath = os.path.join(os.path.dirname(__file__), '../Maps/SimpleMovingMap/Map.csv')
+        self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/NoControllingPointsMap/Map.csv')
         self._ConfigProvider = UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.Config', 'MapFileName',self._RealPath)
         self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'False')
@@ -100,6 +103,23 @@ class test_GameController(TestCase):
         gamecontroller.Run()
         self.assertTrue(gamecontroller.VictoryReason.winningireason == WinnigReason.PLAYER_2_CRASH, "OK")
         self.assertTrue(gamecontroller.VictoryReason.winner == WinnigPlayer.PLAYER_1, "OK")
+
+    def test_GameController_SameMovement(self):
+        sleep(2)  # Time in seconds.
+        self._ConfigProvider.addValue('Game.Config', 'MapFileName', self._NoControllingPointsMap)
+        self._ConfigProvider.addValue('Player1.Config', 'StartPositionX', '0')
+        self._ConfigProvider.addValue('Player1.Config', 'StartPositionY', '0')
+        self._ConfigProvider.addValue('Player2.Config', 'StartPositionX', '2')
+        self._ConfigProvider.addValue('Player2.Config', 'StartPositionY', '2')
+
+        playerfacade1 = SamePointMovingPlayerFacade()
+        playerfacade2 = SamePointMovingPlayerFacade()
+        gamecontroller = GameController(self._ConfigProvider, playerfacade1, playerfacade2)
+        gamecontroller.Run()
+        self.assertTrue(gamecontroller.VictoryReason.winningireason == WinnigReason.GAME_TIME_OUT, "OK")
+        self.assertTrue(gamecontroller.VictoryReason.winner == WinnigPlayer.NO_WINNER, "OK")
+        self.assertTrue(gamecontroller.Player_1_State.score == 0, "OK")
+        self.assertTrue(gamecontroller.Player_2_State.score == 0, "OK")
 
 
     def test_GameController_TestState(self):
