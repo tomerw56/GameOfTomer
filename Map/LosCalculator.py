@@ -25,6 +25,11 @@ class LosCalculator:
                 maxalt=currntalt
 
         return True
+    def getLosList(self,pFrom:Point,pTo:Point):
+        lospoints=[]
+        lospoints = self._bres(pFrom, pTo)
+        return lospoints
+
     def _bres(self,pFrom:Point,pTo:Point):
         end = False
         x0 = pFrom.x

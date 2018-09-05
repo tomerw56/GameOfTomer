@@ -4,11 +4,13 @@ import matplotlib.pyplot as plt
 from typing import List
 from Common.Point import  Point
 from matplotlib.widgets import Button
+from Map.LosCalculator import LosCalculator
 
 class GameDrawing():
     def __init__(self,map:np.matrix,gamestates:List[CompleteGameState]=[]):
         self._map=map
         self._GameStates=gamestates
+
         self._DrawInitialState()
 
 
@@ -29,14 +31,20 @@ class GameDrawing():
         color='black', fontsize=15)
 
         class Index(object):
-            def __init__(self,plttable,counter, gamestates: List[CompleteGameState] = []):
+            def __init__(self,plttable,counter,map,gamestates: List[CompleteGameState] = []):
                 self._GameStates = gamestates
+                self._LosCalculator = LosCalculator()
+
                 self._CurrentIndex = 0
                 self._the_table=plttable
                 self._Counter=counter
                 self._Player_1_Color = "red"
                 self._Player_2_Color = "green"
-
+                self._ThreatColor = "orange"
+                self._map=map
+                width, height = map.shape
+                self._width=width
+                self._height=height
                 self._PreviousPlayer_1_Location=None
                 self._PreviousPlayer_2_Location = None
 
@@ -88,20 +96,32 @@ class GameDrawing():
                 self._PreviousPlayer_1_Location = self._GameStates[self._CurrentIndex].player_1_State.position
                 self._PreviousPlayer_2_Location = self._GameStates[self._CurrentIndex].player_2_State.position
 
-            def _ClearOldPlayerPosition(self,position:Point):
+            def _ClearCellForColor(self,x,y):
                 self._the_table._cells[
-                    (position.x, position.y)].set_facecolor('w')
-            def _DrawState(self, gamestate: CompleteGameState):
+                    (x, y)].set_facecolor('w')
+            def _ClearOldColoring(self):
+                for outeridx in range(self._width):
+                    for inneridx in range(self._height):
+                        self._ClearCellForColor(outeridx,inneridx)
 
-                if(self._PreviousPlayer_1_Location!=None):
-                    self._ClearOldPlayerPosition(self._PreviousPlayer_1_Location)
-                if (self._PreviousPlayer_2_Location != None):
-                    self._ClearOldPlayerPosition(self._PreviousPlayer_2_Location)
+            def _DrawState(self, gamestate: CompleteGameState):
+                self._ClearOldColoring()
+
                 self._Counter.set_text("Step: {0}".format(self._CurrentIndex))
                 self._the_table._cells[
                     (gamestate.player_1_State.position.x, gamestate.player_1_State.position.y)].set_facecolor(self._Player_1_Color)
                 self._the_table._cells[
                     (gamestate.player_2_State.position.x, gamestate.player_2_State.position.y)].set_facecolor(self._Player_2_Color)
+
+
+                if(gamestate.player_2_State.threatened or gamestate.player_1_State.threatened):
+                    pointlist=self._LosCalculator.getLosList(gamestate.player_1_State.position,gamestate.player_2_State.position)
+                    if(len(pointlist)>2):
+                        lastindex=len(pointlist)-2
+                        for idx in range(0,lastindex):
+                            self._the_table._cells[pointlist[idx].x,pointlist[idx].y].set_facecolor(self._ThreatColor)
+
+
 
                 if(self._FinalScore == None):
                     self._FinalScore=ax.text(0.1, 0.95, '',
@@ -195,15 +215,12 @@ class GameDrawing():
                                                    verticalalignment='bottom', horizontalalignment='left',
                                                    transform=ax.transAxes,
                                                    color=self._Player_2_Color, fontsize=6)
-
-
                 self._Player_1_threatenedTime.set_text("threatenedTime: {0}".format(gamestate.player_1_State.threatenedTime))
                 self._Player_1_threateningTime.set_text("threateningTime: {0}".format(gamestate.player_1_State.threateningTime))
                 self._Player_1_timeinposition.set_text("timeinposition: {0}".format(gamestate.player_1_State.timeinposition))
                 self._Player_1_threatened.set_text("threatened: {0}".format(gamestate.player_1_State.threatened))
                 self._Player_1_destroyed.set_text("destroyed: {0}".format(gamestate.player_1_State.destroyed))
                 self._Player_1_score.set_text("score: {0}".format(gamestate.player_1_State.score))
-
                 self._Player_2_threatenedTime.set_text(
                     "threatenedTime: {0}".format(gamestate.player_2_State.threatenedTime))
                 self._Player_2_threateningTime.set_text(
@@ -213,13 +230,11 @@ class GameDrawing():
                 self._Player_2_threatened.set_text("threatened: {0}".format(gamestate.player_2_State.threatened))
                 self._Player_2_destroyed.set_text("destroyed: {0}".format(gamestate.player_2_State.destroyed))
                 self._Player_2_score.set_text("score: {0}".format(gamestate.player_2_State.score))
-
-
-
                 plt.draw()
         axprev = plt.axes([0.7, 0.05, 0.1, 0.075])
         axnext = plt.axes([0.81, 0.05, 0.1, 0.075])
-        callback = Index(self._the_table,self._Counter,self._GameStates)
+
+        callback = Index(self._the_table,self._Counter,self._map,self._GameStates)
         bnext = Button(axnext, 'Next')
         bnext.on_clicked(callback.next)
         bprev = Button(axprev, 'Previous')

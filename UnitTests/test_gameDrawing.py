@@ -87,6 +87,51 @@ class TestGameDrawing(TestCase):
         drawMatch = GameDrawing(csvreader.Matrix, games)
         self.assertTrue(csvreader.fileLoaded, "error")
 
+    def test_DrawAll_FinalState_Threat(self):
+        RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
+        csvreader = CSVMatrixReader()
+        csvreader.parse(RealPath)
+
+        game1 = CompleteGameState(100);
+        game1.player_1_State.position = Point(0, 0)
+        game1.player_2_State.position = Point(9, 9)
+        game1.player_2_State.threatened = True
+
+        game2 = CompleteGameState(100);
+        game2.player_1_State.position = Point(1, 1)
+        game2.player_2_State.position = Point(2, 4)
+        game2.player_2_State.threatened = False
+
+        game3 = CompleteGameState(100);
+        game3.player_1_State.position = Point(2, 7)
+        game3.player_2_State.position = Point(9, 3)
+        game3.player_1_State.score = 10
+        game3.player_2_State.score = 20
+        game3.player_2_State.threatened = True
+
+        game4 = CompleteGameState(100);
+        game4.player_1_State.position = Point(1, 1)
+        game4.player_2_State.position = Point(3, 3)
+        game4.player_1_State.score = 10
+        game4.player_2_State.score = 20
+        game4.player_2_State.threatened = True
+
+        game5 = CompleteGameState(100);
+        game5.player_1_State.position = Point(1, 1)
+        game5.player_2_State.position = Point(2, 2)
+        game5.player_1_State.score = 10
+        game5.player_2_State.score = 20
+        game5.player_2_State.threatened = True
+
+        games = []
+        games.append(game1)
+        games.append(game2)
+        games.append(game3)
+        games.append(game4)
+        games.append(game5)
+        drawMatch = GameDrawing(csvreader.Matrix, games)
+        self.assertTrue(csvreader.fileLoaded, "error")
+
     def test_DrawRandomData(self):
         RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         csvreader=CSVMatrixReader()
