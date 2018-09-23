@@ -1,19 +1,18 @@
 class Constants:
     def __init__(self):
-        self._CoverNumber=100
         self._MaximumAltDif=2
+        self._SafePointValue = 99
         self._ConnectedGraphVertexWeight=1
         self._InValidAlt = -1
         self._UnConnectedGraphVertexWeight = 100
+
         self._ReordFileNameTemplate="Step_{0}.json"
         self._RecordGameMetaDataFileName="GameMetaData.json"
         self._MovementGraphFileName = "MovementGraph.json"
         self._ControllingPointsFileName = "ControllingPoints.json"
+        self._SafePointsFileName = "SafePoints.json"
 
 
-    @property
-    def CoverNumber(self):
-        return self._CoverNumber
 
     @property
     def RecordGameMetaDataFileName(self):
@@ -22,6 +21,10 @@ class Constants:
     @property
     def ControllingPointsFileName(self):
         return self._ControllingPointsFileName
+
+    @property
+    def SafePointsFileName(self):
+        return self._SafePointsFileName
 
     @property
     def MovementGraphFileName(self):
@@ -43,3 +46,6 @@ class Constants:
     @property
     def InValidAlt(self):
         return self._InValidAlt
+    @property
+    def SafePointValue(self):
+        return self._SafePointValue

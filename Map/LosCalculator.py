@@ -19,7 +19,7 @@ class LosCalculator:
         lospoints=self._bres(pFrom,pTo)
         for point in lospoints:
             currntalt=map[point.y, point.x]
-            if currntalt>alt:
+            if currntalt>alt and currntalt!=self._Consts.SafePointValue:
                 return False
             else:
                 maxalt=currntalt

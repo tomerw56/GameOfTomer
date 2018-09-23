@@ -55,6 +55,13 @@ class MapHolder:
                 movementgraph_frozenstate = f.read()
                 dumps=jsonpickle.decode(movementgraph_frozenstate)
                 self._Graph = json_graph.node_link_graph(dumps)
+
+            safepointsfilename = os.path.join(os.path.dirname(mapname), self._Consts.SafePointsFileName)
+            print("Attempting to load {} form safepointsfilename".format(safepointsfilename))
+            self._SafePoints = []
+            with io.open(safepointsfilename, 'r') as f:
+                safepoints_frozenstate = f.read()
+                self._SafePoints = jsonpickle.decode(safepoints_frozenstate)
             return True
         except:
             print(sys.exc_info())

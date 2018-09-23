@@ -1,13 +1,13 @@
 import numpy as np
 from Engine.Common.CompleteGameState import CompleteGameState
-import matplotlib.pyplot as plt
-from typing import List
+import matplotlib.pyplot
+import typing
 from Common.Point import  Point
 from matplotlib.widgets import Button
 from Map.LosCalculator import LosCalculator
 
 class GameDrawing():
-    def __init__(self,map:np.matrix,gamestates:List[CompleteGameState]=[]):
+    def __init__(self, map:np.matrix, gamestates:typing.List[CompleteGameState]=[]):
         self._map=map
         self._GameStates=gamestates
 
@@ -16,8 +16,8 @@ class GameDrawing():
 
     def _DrawInitialState(self):
         import numpy as np
-        fig, ax = plt.subplots()
-        plt.subplots_adjust(bottom=0.2)
+        fig, ax = matplotlib.pyplot.subplots()
+        matplotlib.pyplot.subplots_adjust(bottom=0.2)
         self._ax=ax
         ax.axis('tight')
         ax.axis('off')
@@ -31,7 +31,7 @@ class GameDrawing():
         color='black', fontsize=15)
 
         class Index(object):
-            def __init__(self,plttable,counter,map,gamestates: List[CompleteGameState] = []):
+            def __init__(self, plttable, counter, map, gamestates: typing.List[CompleteGameState] = []):
                 self._GameStates = gamestates
                 self._LosCalculator = LosCalculator()
 
@@ -230,9 +230,9 @@ class GameDrawing():
                 self._Player_2_threatened.set_text("threatened: {0}".format(gamestate.player_2_State.threatened))
                 self._Player_2_destroyed.set_text("destroyed: {0}".format(gamestate.player_2_State.destroyed))
                 self._Player_2_score.set_text("score: {0}".format(gamestate.player_2_State.score))
-                plt.draw()
-        axprev = plt.axes([0.7, 0.05, 0.1, 0.075])
-        axnext = plt.axes([0.81, 0.05, 0.1, 0.075])
+                matplotlib.pyplot.draw()
+        axprev = matplotlib.pyplot.axes([0.7, 0.05, 0.1, 0.075])
+        axnext = matplotlib.pyplot.axes([0.81, 0.05, 0.1, 0.075])
 
         callback = Index(self._the_table,self._Counter,self._map,self._GameStates)
         bnext = Button(axnext, 'Next')
@@ -240,7 +240,7 @@ class GameDrawing():
         bprev = Button(axprev, 'Previous')
         bprev.on_clicked(callback.prev)
 
-        plt.show()
+        matplotlib.pyplot.show()
 
 
 

@@ -1,5 +1,6 @@
 from Map.CSVMatrixReader import CSVMatrixReader
 from Map.LosCalculator import LosCalculator
+import numpy as np
 import shutil
 import os
 from pathlib import Path
@@ -37,6 +38,10 @@ class InfraPrepMode(object):
                 self._LoadControlledPoints()
                 self._SaveControllingPoints(destfolder)
 
+                # build Controllpoints
+                self._LoadSafePoints()
+                self._SaveSafePoints(destfolder)
+
 
             except:
                 print(sys.exc_info())
@@ -51,6 +56,18 @@ class InfraPrepMode(object):
             self._PointsControl[RowIndex] = {}
             for ColIndex in range(0, dim.height):
                 self._GetControllingPointsForPoint(RowIndex,ColIndex)
+
+    def _LoadSafePoints(self):
+        self._SafePoints = []
+        dim = self._getMapDim()
+        goodvalues = [self._Consts.SafePointValue]
+        safepointsindexes = np.isin(self._Csvreader.Matrix, goodvalues)
+        Y,X=np.where(safepointsindexes)
+        for i in range(len(Y)):
+            self._SafePoints.append(Point(X[i],Y[i]))
+        print (safepointsindexes)
+
+
     def _GetControllingPointsForPoint(self,x,y):
         dim = self._getMapDim()
         point=Point(x,y)
@@ -67,6 +84,12 @@ class InfraPrepMode(object):
 
         self._PointsControl[x][y]=pointcontrol
 
+    def _SaveSafePoints(self,destfolder):
+        safepoints = jsonpickle.encode(self._SafePoints)
+
+        filedir = os.path.join(destfolder, self._Consts.SafePointsFileName)
+        with io.open(filedir, 'w') as f:
+            f.write(safepoints)
     def _SaveControllingPoints(self,destfolder):
         controllingpoints = jsonpickle.encode(self._PointsControl)
 
@@ -123,21 +146,18 @@ class InfraPrepMode(object):
             return
         # we try to go to Cover -not connected
         NextCord = Point.ToGridNode(newColIndex, newRowIndex, dim.height)
-        if self._Csvreader.Matrix.item((colIndex, rowIndex)) == self._Consts.CoverNumber:
-            return
-        # we try to go from Cover -not connected
+        if self._Csvreader.Matrix.item((colIndex, rowIndex)) == self._Consts.SafePointValue or self._Csvreader.Matrix.item((newColIndex, newRowIndex)) == self._Consts.SafePointValue:
+            # we set connectivity
+            self._Graph.add_edge(NextCord, cord, weight=self._Consts.ConnectedGraphVertexWeight)
+        else:
+            # Alt Diff Issue
+            AltDiff = abs(
+                self._Csvreader.Matrix.item((colIndex, rowIndex)) - self._Csvreader.Matrix.item((newColIndex, newRowIndex)))
+            if AltDiff >= self._Consts.MaximumAltDif:
+                return
 
-        if self._Csvreader.Matrix.item((newColIndex, newRowIndex)) == self._Consts.CoverNumber:
-            return
-
-        # Alt Diff Issue
-        AltDiff = abs(
-            self._Csvreader.Matrix.item((colIndex, rowIndex)) - self._Csvreader.Matrix.item((newColIndex, newRowIndex)))
-        if AltDiff >= self._Consts.MaximumAltDif:
-            return
-
-        # we set connectivity
-        self._Graph.add_edge(NextCord, cord, weight=self._Consts.ConnectedGraphVertexWeight)
+            # we set connectivity
+            self._Graph.add_edge(NextCord, cord, weight=self._Consts.ConnectedGraphVertexWeight)
 
 
     @property

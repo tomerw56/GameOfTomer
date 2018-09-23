@@ -13,7 +13,7 @@ def main():
     parser_pb = subparsers.add_parser('PlayBack', help='PlayBack mode')
     parser_pb.add_argument('playbackfolder', help='playback folder ')
 
-    parser_Infra = subparsers.add_parser('InfraParse', help='b help')
+    parser_Infra = subparsers.add_parser('InfraParse', help='InfraParse help')
     parser_Infra.add_argument('sourcefile', help='sources file')
     parser_Infra.add_argument('destfolder', help='destfolder')
     args = parser.parse_args()
