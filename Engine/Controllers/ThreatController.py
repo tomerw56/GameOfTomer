@@ -14,17 +14,33 @@ class ThreatController:
     def GetPlayerThreatState(self,threateningPlayer:PlayerState,threatenedPlayer:PlayerState)->PlayerThreatState:
         isLOS=False
         control = self._mapHolder.pointscontrol
-        controlledpoints = control[threateningPlayer.position.x][threateningPlayer.position.y].controlledpoints
-        for point in controlledpoints:
-            if point == threatenedPlayer.position:
-                isLOS=True
-        if isLOS and self._IsControllingAlt(threateningPlayer.position,threatenedPlayer.position):
-            if threatenedPlayer.threatenedTime>self._ThreatTimeOut:
-                return PlayerThreatState.DESTROYED
-            else:
-                return PlayerThreatState.THREATENED
+        if self._IsSafetyPoint(threatenedPlayer.position):
+            return PlayerThreatState.SAFEPOINT
+        isLOS=self._isLos(threateningPlayer.position,threatenedPlayer.position)
+
+        if isLOS:
+            if self._IsControllingAlt(threateningPlayer.position, threatenedPlayer.position) and self._mapHolder.isCloseToSafty(threateningPlayer.position):
+                if threatenedPlayer.threatenedTime>self._ThreatTimeOut:
+                    return PlayerThreatState.DESTROYED
+                else:
+                    return PlayerThreatState.THREATENED
         else:
             return PlayerThreatState.NOT_THREATENED
+    def isThreatnedForTooLong(self,threatenedtime):
+        return threatenedtime>self._Consts.ThreatTimeTillPunisment
+    def _isLos(self,threateningPlayer_position, threatenedPlayer_position):
+        control = self._mapHolder.pointscontrol
+        controlledpoints = control[threateningPlayer_position.x][threateningPlayer_position.y].controlledpoints
+        for point in controlledpoints:
+            if point == threatenedPlayer_position:
+               return True
+        return False
+    def _IsSafetyPoint(self,threatenedPlayer_position):
+        saftypoints = self._mapHolder.saftypoints
+        for point in saftypoints:
+            if point == threatenedPlayer_position:
+                return  True
+        return False
     def _IsControllingAlt(self,threateningPlayer_position,threatenedPlayer_position):
         threateningPlayerAlt=self._mapHolder.getAlt(threateningPlayer_position)
         if threateningPlayerAlt==self._Consts.InValidAlt:

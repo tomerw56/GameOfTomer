@@ -7,11 +7,14 @@ class NoMovementController:
     def __init__(self,configprovider:ConfigProvider):
         self._ConfigProvider=configprovider;
         self._PointDecTime = int(self._ConfigProvider.getValue("NoMovement.Config", "PointDecTime"))
+        self._SafePointDecTime = int(self._ConfigProvider.getValue("NoMovement.Config", "SafePointDecTime"))
 
 
-    def IStaticForTooLong(self,position: Point, nomovetime)->PlayerNoMovmentState:
 
-        if self._IsTimeOutForDec(nomovetime):
+    def IStaticForTooLong(self,position: Point, nomovetime,isSafePoint)->PlayerNoMovmentState:
+
+
+        if self._IsTimeOutForDec(nomovetime,isSafePoint):
             return PlayerNoMovmentState.STATIC_TIMEOUT
         else:
             return PlayerNoMovmentState.OK
@@ -19,6 +22,8 @@ class NoMovementController:
 
 
 
-    def _IsTimeOutForDec(self,nomovetime)->bool:
+    def _IsTimeOutForDec(self,nomovetime,isSafePoint)->bool:
+        if isSafePoint:
+            return nomovetime > self._SafePointDecTime;
         return nomovetime>self._PointDecTime;
 

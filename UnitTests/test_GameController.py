@@ -27,6 +27,7 @@ class test_GameController(TestCase):
         self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'False')
         self._ConfigProvider.addValue('Game.MovementDefinations', 'maximumAllowedPath', '3')
         self._ConfigProvider.addValue('NoMovement.Config', 'PointDecTime', '5')
+        self._ConfigProvider.addValue('NoMovement.Config', 'SafePointDecTime', '2')
         self._ConfigProvider.addValue('RestPoint.Config', 'RestPointTimeToProfit', '3')
         self._ConfigProvider.addValue('RestPoint.Config', 'RestPointTimeToRegenerate', '5')
         self._ConfigProvider.addValue('Game.Config','TotalPlayTime', '20')

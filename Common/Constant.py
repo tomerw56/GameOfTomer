@@ -5,7 +5,8 @@ class Constants:
         self._ConnectedGraphVertexWeight=1
         self._InValidAlt = -1
         self._UnConnectedGraphVertexWeight = 100
-
+        self._SaftypointCloseRange=2
+        self._ThreatTimeTillPunisment = 2
         self._ReordFileNameTemplate="Step_{0}.json"
         self._RecordGameMetaDataFileName="GameMetaData.json"
         self._MovementGraphFileName = "MovementGraph.json"
@@ -17,6 +18,15 @@ class Constants:
     @property
     def RecordGameMetaDataFileName(self):
         return self._RecordGameMetaDataFileName
+
+    @property
+    def ThreatTimeTillPunishment(self):
+        return self._ThreatTimeTillPunisment
+
+
+    @property
+    def SafetypointCloseRange(self):
+        return self._saftypointCloseRange
 
     @property
     def ControllingPointsFileName(self):

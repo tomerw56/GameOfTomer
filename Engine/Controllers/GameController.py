@@ -139,7 +139,7 @@ class GameController:
             else:
                 playerstate.UpdateStatesDueToNoMovement()
     def _UpdatePlayerNoMovementPanelty(self,playerstate:PlayerState):
-        result=self._NoMovementController.IStaticForTooLong(playerstate.position,playerstate.timeinposition)
+        result=self._NoMovementController.IStaticForTooLong(playerstate.position,playerstate.timeinposition,self._MapHolder.isSafePoint(playerstate.position))
         if result!=PlayerNoMovmentState.OK:
             playerstate.score-=1
 
@@ -159,9 +159,15 @@ class GameController:
             threateningPlayer.threateningTime+=1
             threatenedPlayer.threatenedTime+=1
             threatenedPlayer.threatened=True
+            if threatenedPlayer.threatenedTime>self._ThreatController.isThreatnedForTooLong( threatenedPlayer.threatenedTime):
+                threatenedPlayer.score-=1
         if(threatstate==PlayerThreatState.DESTROYED):
             threatenedPlayer.destroyed=True
             threateningPlayer.score+=10
+        if  threatstate == PlayerThreatState.SAFEPOINT or threatstate == PlayerThreatState.NOT_THREATENED:
+            threateningPlayer.threateningTime =0
+            threatenedPlayer.threatenedTime=0
+            threatenedPlayer.threatened = False
     @property
     def valid(self):
         return self._Valid

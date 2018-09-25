@@ -155,6 +155,19 @@ class MapHolder:
             return self._Consts.InValidAlt
         nodeloc = Point.ToGridNodeFromPoint(location, dim.height)
         return self._Csvreader.Matrix.item(nodeloc)
+
+    def isCloseToSafty(self, location: Point):
+        for safty in self._SafePoints:
+            pathresult=self.getPath(location,safty)
+            if pathresult.valid and pathresult.length<=self._Consts.saftypointCloseRange:
+                return True
+        return False
+
+    def isSafePoint(self, location: Point):
+        for safty in self._SafePoints:
+            if safty==location:
+                return True
+        return False
     @property
     def mapLoaded(self):
         return  self._Csvreader.fileLoaded
@@ -167,6 +180,10 @@ class MapHolder:
     @property
     def pointscontrol(self):
         return self._PointsControl
+    @property
+    def saftypoints(self):
+        return  self._SafePoints
+
 
 
 

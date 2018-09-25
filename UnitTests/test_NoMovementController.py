@@ -12,7 +12,7 @@ class test_NoMovementController(TestCase):
         self._ConfigProvider=UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.MovementDefinations','maximumAllowedPath','3')
         self._ConfigProvider.addValue('NoMovement.Config', 'PointDecTime', '3')
-
+        self._ConfigProvider.addValue('NoMovement.Config', 'SafePointDecTime', '2')
 
     def test_NoMovementController_OK(self):
 

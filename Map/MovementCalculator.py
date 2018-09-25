@@ -17,7 +17,7 @@ class MovementCalculator:
             return False
         except nx.exception.NetworkXError:
             return False
-    def getPath(self,pFrom,pTo,graph):
+    def getPath(self,pFrom,pTo,graph)->PathResult:
 
         try:
             path = nx.shortest_path(graph,pFrom,pTo)
