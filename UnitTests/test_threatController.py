@@ -19,10 +19,24 @@ class test_threatController(TestCase):
         self._ConfigProvider.addValue('Threat.Config', 'ThreatAltDiff', '1')
         self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph','False')
 
+    def test_ThreatController_Safe(self):
+        path = self._RealPath
+        p1 = Point(3, 4)
+        p2 = Point(7, 1)
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        threatController = ThreatController(holder, self._ConfigProvider)
+        playerstate1 = PlayerState(1)
+        playerstate1.position = p1
+        playerstate2 = PlayerState(2)
+        playerstate2.position = p2
+        self.assertTrue(
+            threatController.GetPlayerThreatState(playerstate1, playerstate2) == PlayerThreatState.SAFEPOINT, "OK")
+
     def test_ThreatController_Threat(self):
         path = self._RealPath
         p1 = Point(3, 4)
-        p2 = Point(6, 5)
+        p2 = Point(5, 6)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
         threatController=ThreatController(holder,self._ConfigProvider)
@@ -31,6 +45,20 @@ class test_threatController(TestCase):
         playerstate2 = PlayerState(2)
         playerstate2.position = p2
         self.assertTrue(threatController.GetPlayerThreatState(playerstate1,playerstate2)==PlayerThreatState.THREATENED, "OK")
+
+    def test_ThreatController_LOSButNoSafePointInRange(self):
+        path = self._RealPath
+        p1 = Point(0, 0)
+        p2 = Point(0, 6)
+        holder = MapHolder(self._ConfigProvider)
+        holder.loadMap(path)
+        threatController=ThreatController(holder,self._ConfigProvider)
+        playerstate1=PlayerState(1)
+        playerstate1.position=p1
+        playerstate2 = PlayerState(2)
+        playerstate2.position = p2
+        self.assertTrue(threatController.GetPlayerThreatState(playerstate1,playerstate2)==PlayerThreatState.NOT_THREATENED, "OK")
+
 
     def test_ThreatController_NotThreat(self):
         path = self._RealPath

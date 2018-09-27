@@ -159,7 +159,7 @@ class MapHolder:
     def isCloseToSafty(self, location: Point):
         for safty in self._SafePoints:
             pathresult=self.getPath(location,safty)
-            if pathresult.valid and pathresult.length<=self._Consts.saftypointCloseRange:
+            if pathresult.valid and pathresult.length<=self._Consts.SaftypointCloseRange:
                 return True
         return False
 
