@@ -48,8 +48,8 @@ class test_threatController(TestCase):
 
     def test_ThreatController_LOSButNoSafePointInRange(self):
         path = self._RealPath
-        p1 = Point(0, 0)
-        p2 = Point(0, 6)
+        p1 = Point(8, 8)
+        p2 = Point(9, 9)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
         threatController=ThreatController(holder,self._ConfigProvider)
@@ -76,7 +76,7 @@ class test_threatController(TestCase):
     def test_ThreatController_Destroryed(self):
         path = self._RealPath
         p1 = Point(3, 4)
-        p2 = Point(6, 5)
+        p2 = Point(5, 6)
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
         threatController = ThreatController(holder, self._ConfigProvider)
