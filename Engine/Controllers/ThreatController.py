@@ -15,19 +15,31 @@ class ThreatController:
         isLOS=False
         control = self._mapHolder.pointscontrol
         if self._IsSafetyPoint(threatenedPlayer.position):
+            print ('Attacked player in safepoint')
             return PlayerThreatState.SAFEPOINT
         isLOS=self._isLos(threateningPlayer.position,threatenedPlayer.position)
 
         if isLOS:
-            if self._IsControllingAlt(threateningPlayer.position, threatenedPlayer.position) and self._mapHolder.isCloseToSafty(threateningPlayer.position):
-                if threatenedPlayer.threatenedTime>self._ThreatTimeOut:
-                    return PlayerThreatState.DESTROYED
+            if self._IsControllingAlt(threateningPlayer.position, threatenedPlayer.position):
+                if self._mapHolder.isCloseToSafty(threateningPlayer.position):
+                    if threatenedPlayer.threatenedTime>self._ThreatTimeOut:
+                        print('Attacked player was in threat state for too long and now destroyed!!!')
+                        return PlayerThreatState.DESTROYED
+                    else:
+                        print('Attacked player is in threat state')
+                        return PlayerThreatState.THREATENED
                 else:
-                    return PlayerThreatState.THREATENED
+                    print('Attacking player not close to safty point')
+                    return PlayerThreatState.NOT_THREATENED
+            else:
+                print ('Attacking player is not in threat alt')
+                return PlayerThreatState.NOT_THREATENED
         else:
+            print('Attacking Player has no LOS')
             return PlayerThreatState.NOT_THREATENED
+        return PlayerThreatState.NOT_THREATENED
     def isThreatnedForTooLong(self,threatenedtime):
-        return threatenedtime>self._Consts.ThreatTimeTillPunisment
+        return threatenedtime>self._Consts.ThreatTimeTillPunishment
     def _isLos(self,threateningPlayer_position, threatenedPlayer_position):
         control = self._mapHolder.pointscontrol
         controlledpoints = control[threateningPlayer_position.x][threateningPlayer_position.y].controlledpoints

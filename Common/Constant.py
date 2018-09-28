@@ -26,7 +26,7 @@ class Constants:
 
     @property
     def SafetypointCloseRange(self):
-        return self._saftypointCloseRange
+        return self._SaftypointCloseRange
 
     @property
     def ControllingPointsFileName(self):

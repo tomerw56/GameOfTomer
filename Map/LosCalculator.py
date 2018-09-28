@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 from Utils.ConfigProvider import ConfigProvider
 from Common.Point import Point
-from Common.BoundingBoxSourceTarget import BoundingBoxSourceTarget
+
 from Common.Constant import Constants
 from Common.Point import Point
 
@@ -22,15 +22,15 @@ class LosCalculator:
         lospoints=self._bres(pFrom,pTo)
         for point in lospoints:
             currntalt=map[point.y, point.x]
-            if currntalt>alt:
-                return False
-            else:
-                maxalt=currntalt
-
+            if currntalt!=self._Consts.SafePointValue:
+                if currntalt>alt:
+                    return False
+                else:
+                    maxalt=currntalt
         return True
 
     def _IsSafePoint(self,point,map:np.matrix):
-        alt = map[point.y, point.x]
+        alt = map[point.x, point.y]
         return alt==self._Consts.SafePointValue
     def getLosList(self,pFrom:Point,pTo:Point):
         lospoints=[]

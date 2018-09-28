@@ -98,7 +98,7 @@ class TestPlayerEngine(TestCase):
         self.assertTrue(engine.IsLosToEnemy())
         self.assertTrue(engine.IsLosFromMeToPoint(Point(6,1)))
         p1 = Point(3, 4);
-        p2 = Point(6, 5);
+        p2 = Point(5, 6);
         self.assertTrue(engine.IsLosBetweenPoints(p1,p2))
 
     def test_Los_Fail(self):

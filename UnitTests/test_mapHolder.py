@@ -255,8 +255,8 @@ class TestMapHolder(TestCase):
         controllingpointsLen=len(cotrolledpoints[1][1].controllingpoints)
         controlledpointsLen = len(cotrolledpoints[1][1].controlledpoints)
 
-        self.assertTrue(controllingpointsLen == 0, "error")
-        self.assertTrue(controlledpointsLen==8, "error")
+        self.assertTrue(controllingpointsLen == 8, "error")
+        self.assertTrue(controlledpointsLen==24, "error")
 
     def test_Get_ControllingPoints_2(self):
         path = self._NoControllingPointsMap
@@ -264,10 +264,10 @@ class TestMapHolder(TestCase):
         holder = MapHolder(self._ConfigProvider)
         holder.loadMap(path)
         cotrolledpoints=holder.pointscontrol;
-        controllingpointsLen=len(cotrolledpoints[2][2].controllingpoints)
-        controlledpointsLen = len(cotrolledpoints[2][2].controlledpoints)
+        controllingpointsLen=len(cotrolledpoints[0][0].controllingpoints)
+        controlledpointsLen = len(cotrolledpoints[0][0].controlledpoints)
 
-        self.assertTrue(controllingpointsLen== 5, "error")
-        self.assertTrue(controlledpointsLen==6, "error")
+        self.assertTrue(controllingpointsLen== 17, "error")
+        self.assertTrue(controlledpointsLen==8, "error")
     #endregion
 
