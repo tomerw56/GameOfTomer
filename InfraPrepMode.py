@@ -79,7 +79,8 @@ class InfraPrepMode(object):
                 if(targetpoint!=point):
                     if(self._LosCalculator.IsLos(point,targetpoint,self._Csvreader.Matrix)):
                         pointcontrol.controlledpoints.append(targetpoint)
-                    if (self._LosCalculator.IsLos(targetpoint, point, self._Csvreader.Matrix)):
+
+                    if  not self._LosCalculator.IsSafePoint(targetpoint, self._Csvreader.Matrix) and  self._LosCalculator.IsLos(targetpoint, point, self._Csvreader.Matrix):
                         pointcontrol.controllingpoints.append(targetpoint)
 
         self._PointsControl[x][y]=pointcontrol

@@ -12,11 +12,9 @@ class LosCalculator:
         self._Consts = Constants()
 
     def IsLos(self, pFrom: Point, pTo: Point, map: np.matrix)->bool:
-        if self._IsSafePoint(pTo,map):
+        if self.IsSafePoint(pTo,map):
             return False
         alt=map[pFrom.y,pFrom.x]
-
-        maxalt=0
         if pFrom==pTo:
             return True
         lospoints=self._bres(pFrom,pTo)
@@ -25,12 +23,10 @@ class LosCalculator:
             if currntalt!=self._Consts.SafePointValue:
                 if currntalt>alt:
                     return False
-                else:
-                    maxalt=currntalt
         return True
 
-    def _IsSafePoint(self,point,map:np.matrix):
-        alt = map[point.x, point.y]
+    def IsSafePoint(self,point,map:np.matrix):
+        alt = map[point.y, point.x]
         return alt==self._Consts.SafePointValue
     def getLosList(self,pFrom:Point,pTo:Point):
         lospoints=[]
