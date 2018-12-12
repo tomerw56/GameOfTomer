@@ -1,0 +1,7 @@
+<Controllers>
+<Controller file="F:\GameOfTomer\GitRepo\UnitTests\UnitTest_PlayerFacade\EvadingPlayerFacade.py" module="UnitTests.UnitTest_PlayerFacade.EvadingPlayerFacade" classname="EvadingPlayerFacade" />
+<Controller file="F:\GameOfTomer\GitRepo\UnitTests\UnitTest_PlayerFacade\ExceptionThrowingPlayerFacade.py" module="UnitTests.UnitTest_PlayerFacade.ExceptionThrowingPlayerFacade" classname="ExceptionThrowingPlayerFacade" args="3"/>
+<Controller file="F:\GameOfTomer\GitRepo\UnitTests\UnitTest_PlayerFacade\NoMovePlayerFacade.py" module="UnitTests.UnitTest_PlayerFacade.NoMovePlayerFacade" classname="NoMovePlayerFacade"/>
+<Controller file="F:\GameOfTomer\GitRepo\UnitTests\UnitTest_PlayerFacade\SamePointMovingPlayerFacade.py" module="UnitTests.UnitTest_PlayerFacade.SamePointMovingPlayerFacade" classname="SamePointMovingPlayerFacade"/>
+
+</Controllers>
