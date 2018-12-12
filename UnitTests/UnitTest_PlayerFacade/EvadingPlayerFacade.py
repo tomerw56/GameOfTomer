@@ -1,3 +1,5 @@
+import string
+
 from Common.MovmentCommand import MovementCommand
 from Engine.Common.Facade import PlayerEngineFacade
 from Common.Point import Point
@@ -7,6 +9,9 @@ import random
 class EvadingPlayerFacade(PlayerFacade):
     def __init__(self):
         self._Evades = 0
+
+    def GetDescription(self) -> str:
+        return "EvadingPlayerFacade"
     def DoTurn(self, engine: PlayerEngineFacade)->MovementCommand:
 
         if not hasattr(self,"_Engine"):

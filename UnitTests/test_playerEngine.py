@@ -90,15 +90,15 @@ class TestPlayerEngine(TestCase):
 
         gamestate = GameState(player1, player2,10)
 
-        gamestate.MyPlayer.position = Point(1, 1);
+        gamestate.MyPlayer.position = Point(3, 4);
 
-        gamestate.EnemyPlayer.position=Point(8,1)
+        gamestate.EnemyPlayer.position=Point(1,4)
 
         engine = PlayerEngine.PlayerEngine(gamestate, self._ConfigProvider, holder)
         self.assertTrue(engine.IsLosToEnemy())
-        self.assertTrue(engine.IsLosFromMeToPoint(Point(6,1)))
-        p1 = Point(3, 4);
-        p2 = Point(5, 6);
+        self.assertTrue(engine.IsLosFromMeToPoint(Point(3,0)))
+        p1 = Point(5, 4);
+        p2 = Point(5, 5);
         self.assertTrue(engine.IsLosBetweenPoints(p1,p2))
 
     def test_Los_Fail(self):

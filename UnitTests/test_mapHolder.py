@@ -13,7 +13,7 @@ class TestMapHolder(TestCase):
         self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         self._SimpleRealPath = os.path.join(os.path.dirname(__file__), '../Maps/TestSimpleMap/Map.csv')
         self._NotRealPath = os.path.join(os.path.dirname(__file__), '../Maps/NoMap/Map.csv')
-        self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/NoControllingPointsMap/Map.csv')
+        self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/TestSimpleMap/Map.csv')
         self._ConfigProvider=UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'False')
 
@@ -255,8 +255,8 @@ class TestMapHolder(TestCase):
         controllingpointsLen=len(cotrolledpoints[1][1].controllingpoints)
         controlledpointsLen = len(cotrolledpoints[1][1].controlledpoints)
 
-        self.assertTrue(controllingpointsLen == 8, "error")
-        self.assertTrue(controlledpointsLen==24, "error")
+        self.assertTrue(controllingpointsLen == 5, "error")
+        self.assertTrue(controlledpointsLen==3, "error")
 
     def test_Get_ControllingPoints_2(self):
         path = self._NoControllingPointsMap
@@ -267,7 +267,7 @@ class TestMapHolder(TestCase):
         controllingpointsLen=len(cotrolledpoints[0][0].controllingpoints)
         controlledpointsLen = len(cotrolledpoints[0][0].controlledpoints)
 
-        self.assertTrue(controllingpointsLen== 17, "error")
-        self.assertTrue(controlledpointsLen==8, "error")
+        self.assertTrue(controllingpointsLen== 0, "error")
+        self.assertTrue(controlledpointsLen==7, "error")
     #endregion
 

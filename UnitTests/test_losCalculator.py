@@ -13,8 +13,8 @@ class TestLosCalculator(TestCase):
         RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\ChallangeMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
-        p1 = Point(1, 1);
-        p2 = Point(8, 1);
+        p1 = Point(8, 8);
+        p2 = Point(9, 8);
         calc=LosCalculator()
         isLos=calc.IsLos(p1,p2,csvreader.Matrix)
         self.assertTrue(isLos)
@@ -23,8 +23,8 @@ class TestLosCalculator(TestCase):
         RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\ChallangeMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
-        p1 = Point(8, 1);
-        p2 = Point(1, 1);
+        p1 = Point(1, 1);
+        p2 = Point(0, 1);
         calc = LosCalculator()
         isLos = calc.IsLos(p1, p2, csvreader.Matrix)
         self.assertTrue(isLos)
@@ -53,8 +53,8 @@ class TestLosCalculator(TestCase):
         RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\ChallangeMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
-        p1 = Point(8, 8);
-        p2 = Point(8, 6);
+        p1 = Point(2, 7);
+        p2 = Point(2, 5);
         calc = LosCalculator()
         isLos = calc.IsLos(p1, p2, csvreader.Matrix)
         self.assertTrue(isLos)
@@ -63,8 +63,8 @@ class TestLosCalculator(TestCase):
         RealPath = os.path.join(os.path.dirname(__file__), '..\Maps\ChallangeMap\Map.csv')
         csvreader = CSVMatrixReader()
         csvreader.parse(RealPath)
-        p1 = Point(8, 1);
-        p2 = Point(1, 1);
+        p1 = Point(4, 4);
+        p2 = Point(1, 4);
         calc = LosCalculator()
         isLos = calc.IsLos(p1, p2, csvreader.Matrix)
         self.assertTrue(isLos)

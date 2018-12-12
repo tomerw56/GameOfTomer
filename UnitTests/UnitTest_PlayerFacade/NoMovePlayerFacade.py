@@ -8,6 +8,9 @@ class NoMovePlayerFacade(PlayerFacade):
             self._Engine=engine;
         return  MovementCommand.GetEmpty();
 
+    def GetDescription(self) -> str:
+        return "NoMovePlayerFacade"
+
     @property
     def MyEngine(self)->PlayerEngineFacade:
         return self._Engine

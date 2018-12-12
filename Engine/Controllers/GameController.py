@@ -30,7 +30,6 @@ class GameController:
         self._InitController();
         self._InitGameState()
         self._InitPlayers()
-
         self._Valid=True
 
     def _InitController(self):
@@ -47,6 +46,9 @@ class GameController:
     def _InitGameState(self):
         self._CompleteGameState=CompleteGameState(self._ConfigProvider.getValue("Game.Config","TotalPlayTime"));
         self._GameMetaData=GameMetaData(self._ConfigProvider.getValue("Game.Config","MapFileName"))
+        self._GameMetaData.player_1_description=self._Player1.GetDescription()
+        self._GameMetaData.player_2_description = self._Player2.GetDescription()
+        self._Recorder.WriteMetadata(self._GameMetaData)
 
     def _InitPlayers(self):
         self._CompleteGameState.player_1_State.position=Point(int(self._ConfigProvider.getValue("Player1.Config","StartPositionX")),
@@ -134,10 +136,13 @@ class GameController:
         if movement.IsEmpty:
             playerstate.UpdateStatesDueToNoMovement()
         else:
-            if self._MapHolder.mayMove( playerstate.position,movement.pointTo):
-                playerstate.UpdateStatesDueToMovement(movement.pointTo)
-            else:
+            if  playerstate.position==movement.pointTo:
                 playerstate.UpdateStatesDueToNoMovement()
+            else:
+                if self._MapHolder.mayMove( playerstate.position,movement.pointTo):
+                    playerstate.UpdateStatesDueToMovement(movement.pointTo)
+                else:
+                    playerstate.UpdateStatesDueToNoMovement()
     def _UpdatePlayerNoMovementPanelty(self,playerstate:PlayerState):
         result=self._NoMovementController.IStaticForTooLong(playerstate.position,playerstate.timeinposition,self._MapHolder.isSafePoint(playerstate.position))
         if result!=PlayerNoMovmentState.OK:

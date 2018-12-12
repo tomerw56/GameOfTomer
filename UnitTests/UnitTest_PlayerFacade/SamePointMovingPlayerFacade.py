@@ -11,6 +11,9 @@ class SamePointMovingPlayerFacade(PlayerFacade):
             self._Engine=engine;
         return  MovementCommand(self._DestPoint)
 
+    def GetDescription(self)-> str:
+        return "SamePointMovingPlayerFacade"
+
     @property
     def MyEngine(self)->PlayerEngineFacade:
         return self._Engine

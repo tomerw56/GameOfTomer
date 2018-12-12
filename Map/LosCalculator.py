@@ -21,7 +21,7 @@ class LosCalculator:
         for point in lospoints:
             currntalt=map[point.y, point.x]
             if currntalt!=self._Consts.SafePointValue:
-                if currntalt>alt:
+                if currntalt>=alt:
                     return False
         return True
 

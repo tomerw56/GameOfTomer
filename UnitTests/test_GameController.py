@@ -21,7 +21,7 @@ class test_GameController(TestCase):
     def setUp(self):
         self._RealPath = os.path.join(os.path.dirname(__file__), '../Maps/ChallangeMap/Map.csv')
         self._MovingPath = os.path.join(os.path.dirname(__file__), '../Maps/SimpleMovingMap/Map.csv')
-        self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/NoControllingPointsMap/Map.csv')
+        self._NoControllingPointsMap = os.path.join(os.path.dirname(__file__), '../Maps/TestMap/Map.csv')
         self._ConfigProvider = UnitTestDummyConfigProvider()
         self._ConfigProvider.addValue('Game.Config', 'MapFileName',self._RealPath)
         self._ConfigProvider.addValue('Game.Config', 'DrawMapHolderGraph', 'False')
